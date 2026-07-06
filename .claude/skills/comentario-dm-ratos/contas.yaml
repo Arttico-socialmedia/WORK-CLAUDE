@@ -22,10 +22,3 @@ contas:
   #   notas: ""
 
   # -- Tuas contas abaixo --
-
-  dobralabs:
-    nome: "Instagram @dobralabs"
-    instagram_account_id: "17841431924055337"
-    instagram_username: "@dobralabs"
-    worker_url: "https://comentario-dm-dobralabs-demo.dudu-efe.workers.dev"
-    notas: "Setup demo de aula (2026-06-20)"

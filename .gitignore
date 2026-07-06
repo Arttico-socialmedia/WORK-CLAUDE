@@ -19,17 +19,26 @@ dados/*.json
 !dados/README.md
 
 # Pastas de trabalho do usuário (geradas pelo /setup, conteúdo pessoal)
-clientes/
-propostas/
-conteudo/
-projetos/
-briefings/
-trabalho/
-estudos/
-publicacoes/
-anotacoes/
-curriculo/
-tarefas.md
+/clientes/
+/propostas/
+/conteudo/
+/projetos/
+/briefings/
+/trabalho/
+/estudos/
+/publicacoes/
+/anotacoes/
+/curriculo/
+/tarefas.md
+
+# Marca e skills específicas do negócio (não fazem parte do kit ccos-ratos)
+/marca/arttico/
+/marca/tastto/
+/.claude/skills/estrategia/
+/.claude/skills/operacional/
+/.claude/skills/restaurante/
+/.claude/skills/trafego/
+/.claude/skills/conteudo/
 
 # Sistema
 .DS_Store

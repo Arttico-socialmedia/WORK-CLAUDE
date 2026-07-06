@@ -18,9 +18,8 @@ Essa skill é o segundo passo depois do `/setup`. O setup configurou quem o usu�
 1. Ler `_contexto/empresa.md` pra entender o negócio
 2. Ler `_contexto/estrategia.md` pra saber o foco atual
 3. Ler `templates/ferramentas/catalogo.md` pra saber quais APIs, CLIs e MCPs estão disponíveis
-4. Ler `templates/skills/catalogo.md` pra saber quais skills externas prontas existem
-5. Listar as pastas que já existem no workspace (pra não criar duplicatas)
-6. Listar os templates disponíveis em `templates/skills/` (pra saber o que já temos pronto)
+4. Listar as pastas que já existem no workspace (pra não criar duplicatas)
+5. Listar as skills já instaladas em `.claude/skills/` (organizadas por categoria: trafego, conteudo, restaurante, estrategia, operacional)
 
 ## Fase 1 — Descoberta
 
@@ -61,11 +60,9 @@ Para o processo escolhido, seguir esta lógica:
 
 ### 3.1 — Verificar se já tem algo pronto
 
-Verificar em duas fontes, nessa ordem:
+Verificar em uma fonte:
 
-**1. Templates de skills** (`templates/skills/`) — skills editáveis que vão ser instaladas no projeto.
-
-**2. Catálogo de skills externas** (`templates/skills/catalogo.md`) — skills globais ou nativas do Claude Code que já estão prontas.
+**Skills já instaladas** (`.claude/skills/`) — verificar se alguma skill existente nas categorias trafego, conteudo, restaurante, estrategia ou operacional já cobre o processo.
 
 **Se encontrar template compatível:**
 

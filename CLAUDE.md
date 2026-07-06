@@ -1,42 +1,50 @@
-# DobraLabs — Claude Code OS
+# Arttico & Tastto — Claude Code OS
 
 ## O que é esse workspace
-Workspace de trabalho do Eduardo (DobraLabs). Aqui ficam os projetos de clientes (dev de software e consultoria), a produção de conteúdo do canal Ratos de IA, propostas, reuniões e relatórios.
+Workspace de trabalho da Ilze, social media interna do Grupo Arttico (Agência Arttico) e da Tastto. Aqui fica o planejamento estratégico de conteúdo, redes sociais, retenção de dados e materiais de marketing das duas marcas.
 
 **Estrutura de pastas:**
 - `_contexto/` — memória do sistema (não apagar)
-- `marca/` — identidade visual e logos da DobraLabs
-- `clientes/` — uma pasta por cliente (dev e consultoria); `_modelo-cliente/` é o template
-- `conteudo/` — produção do Ratos de IA (`roteiros/`, `carrosseis/`, `ideias/`)
-- `propostas/` — propostas avulsas antes de virar cliente
+- `marca/arttico/` e `marca/tastto/` — identidade visual de cada marca
+- `conteudo/arttico/` e `conteudo/tastto/` — roteiros, carrosséis e ideias por marca
 - `reunioes/` — atas e anotações de reunião
-- `relatorios/` — relatórios e análises
+- `relatorios/` — relatórios e análises de métricas
 - `dados/` — drop zone pra arquivos analisar (CSV, XLSX, TXT, PDF)
 - `templates/skills/` — templates de skills prontos pra personalizar com /mapear
 - `templates/ferramentas/catalogo.md` — APIs e ferramentas disponíveis pra usar em skills
 - `tarefas.md` — lista de tarefas corrente
 
+Material recebido do time da Tastto (id-visual com logos/paleta/MIV, cases, marketing e relatórios de campanha, processos) fica fora desse repositório, na pasta irmã `../BRAND - TASTTO/` — esse repositório é o kit compartilhado do curso (github.com/dobralabs/ccos-ratos), então dado de negócio/cliente não deve ficar aqui dentro pra não ser commitado nele.
+
 ## Sobre o negócio
-DobraLabs presta serviços de desenvolvimento de software e consultoria pra clientes, e mantém o canal Ratos de IA no YouTube. Operação solo: o Eduardo toca tudo.
+Grupo Arttico atua em marketing, growth e performance, ajudando empresas a captar mais clientes, aumentar conversão comercial e vender mais pra própria base — com forte atuação em consultoria pra food service. Tastto é a plataforma do grupo voltada pra inteligência de dados e crescimento de restaurantes. Ilze é a social media interna, responsável pela estratégia de conteúdo e retenção de dados nas redes sociais das duas marcas.
 
 ## O que mais fazemos aqui
-- Conteúdo pra redes sociais (foco no YouTube Ratos de IA)
-- Propostas comerciais e apresentações comerciais
-- Relatórios e análises
-- Muitas reuniões (atas e follow-ups)
+- Planejamento estratégico de conteúdo e redes sociais (Arttico e Tastto)
+- Roteiros pra Reels, YouTube e vídeos
+- Planejamento editorial e SEO pro YouTube
+- Análise de métricas e retenção de dados
+- Apresentações e briefings internos
+- Direcionamento criativo pra designers e videomakers
 
 ## Clientes e contexto
-Atende clientes externos de dev de software e consultoria, e usa o sistema também pra gerir o próprio negócio. Cada cliente tem sua pasta em `clientes/[nome-cliente]/`.
+Foco 100% interno por enquanto — conteúdo e estratégia pras marcas Arttico e Tastto. O grupo atende clientes externos de agência, mas esse workspace não cobre esse atendimento no momento.
 
 ## Tom de voz
-Informal e direto, como quem fala. Evitar travessão (—), frases-fragmento curtas em série, e dicotomias do tipo "não é isso, é aquilo". Detalhes em `_contexto/preferencias.md`.
+Varia por marca: Arttico é estratégico, direto e educativo, sem frase motivacional vazia; Tastto é consultivo e baseado em dados; conteúdo social é natural e conversacional, sem cara de texto de IA. Evitar clichês tipo "não é sobre X, é sobre Y" e "no mundo de hoje". Detalhes em `_contexto/preferencias.md`.
 
 ## Ferramentas conectadas
-- [ ] Google Drive
-- [ ] Gmail
-- [ ] Canva
-- [ ] Meta Ads (skill /meta-ads-ratos)
-- [ ] Google Ads (skill /google-ads-ratos)
+- [x] Google Drive
+- [ ] Google Docs / Sheets / Slides
+- [x] Meta Ads (skill /meta-ads-ratos)
+- [x] Google Ads (skill /google-ads-ratos)
+- [x] Google Analytics (skill /ga4-ratos)
+- [ ] RD Station CRM
+- [ ] Titan CRM
+- [ ] PipeDrive
+- [ ] Reportei
+- [ ] WhatsApp Business API
+- [ ] GitHub (deploys)
 
 *(Marcar conforme for instalando os MCPs)*
 
@@ -52,7 +60,7 @@ No início de toda conversa, ler os seguintes arquivos (se existirem e estiverem
 
 Usar essas informações como base pra qualquer resposta ou decisão. Ao sugerir prioridades, formatos ou abordagens, considerar o foco atual descrito em `estrategia.md`.
 
-Para qualquer tarefa visual (carrossel, proposta, slide, landing page), consultar `marca/design-guide.md` como referência de estilo.
+Para qualquer tarefa visual (carrossel, proposta, slide, landing page), consultar `marca/arttico/design-guide.md` ou `marca/tastto/design-guide.md` conforme a marca do pedido.
 
 Não é necessário listar o que foi lido nem confirmar a leitura. Apenas usar o contexto naturalmente.
 
@@ -68,16 +76,6 @@ Ao concluir uma tarefa que não tinha skill mas parece repetível, perguntar se 
 
 ---
 
-## Regras do sistema
-
-- Cada cliente tem sua pasta em `clientes/[nome-cliente]/` (briefing.md + proposta.html)
-- Propostas de cliente salvar em `clientes/[nome-cliente]/proposta.html`
-- Conteúdo do Ratos de IA vai em `conteudo/`
-- Atas de reunião vão em `reunioes/`
-- Relatórios e análises vão em `relatorios/`
-
----
-
 ## Aprender com correções
 
 Quando o usuário corrigir algo ou der uma instrução que parece permanente ("na verdade é assim", "não faça mais isso", "prefiro assim", "sempre que...", "evita..."), perguntar se quer salvar. Se sim:
@@ -86,6 +84,14 @@ Quando o usuário corrigir algo ou der uma instrução que parece permanente ("n
 - **Preferências e estilo** → `_contexto/preferencias.md`
 - **Prioridades e foco atual** → `_contexto/estrategia.md`
 - **Regra de comportamento nessa pasta** → este `CLAUDE.md`
-- **Mudança visual** → `marca/design-guide.md`
+- **Mudança visual** → `marca/arttico/design-guide.md` ou `marca/tastto/design-guide.md`
 
 Salvar só a linha nova, sem reformatar o arquivo inteiro.
+
+---
+
+## Manter contexto atualizado
+
+Ao terminar uma tarefa que mudou algo relevante no projeto (nova prioridade, nova skill, mudança de foco, novo processo, ferramenta instalada), perguntar se quer atualizar os arquivos de memória. Mostrar o que vai mudar antes de salvar, sem reformatar o arquivo inteiro.
+
+**Dica:** se não souber se algo mudou, rodar `/atualizar` faz uma varredura completa.

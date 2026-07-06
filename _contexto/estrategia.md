@@ -1,14 +1,13 @@
-# Foco Atual — Eduardo
+# Foco Atual — Ilze
 
 ## Fase
-Crescimento. Escalando o canal próprio e organizando a operação de serviços ao mesmo tempo.
+Estruturação da estratégia interna de conteúdo e dados pras redes sociais da Arttico e da Tastto.
 
 ## Prioridade principal
-1. Aumentar a produção de conteúdo pro YouTube (Ratos de IA).
-2. Organizar os projetos dos clientes de desenvolvimento de software e consultoria.
+Pensar estrategicamente e resolver problemas de produção de conteúdo e retenção de dados nas redes sociais das duas marcas (Arttico e Tastto).
 
 ## O que pode esperar
-Como o foco agora é produção de conteúdo e organização de clientes, não priorizar sugestões fora desses dois eixos sem necessidade.
+Atendimento a clientes externos da agência — não é foco desse workspace no momento.
 
 ## Contexto com prazo
 [Sem datas/eventos fixos registrados ainda. Atualize quando tiver prazos relevantes.]
