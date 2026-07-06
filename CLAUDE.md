@@ -5,7 +5,6 @@ Workspace de trabalho da Ilze, social media interna do Grupo Arttico (Agência A
 
 **Estrutura de pastas:**
 - `_contexto/` — memória do sistema (não apagar)
-- `marca/arttico/` e `marca/tastto/` — identidade visual de cada marca
 - `conteudo/arttico/` e `conteudo/tastto/` — roteiros, carrosséis e ideias por marca
 - `reunioes/` — atas e anotações de reunião
 - `relatorios/` — relatórios e análises de métricas
@@ -14,7 +13,7 @@ Workspace de trabalho da Ilze, social media interna do Grupo Arttico (Agência A
 - `templates/ferramentas/catalogo.md` — APIs e ferramentas disponíveis pra usar em skills
 - `tarefas.md` — lista de tarefas corrente
 
-Material recebido do time da Tastto (id-visual com logos/paleta/MIV, cases, marketing e relatórios de campanha, processos) fica fora desse repositório, na pasta irmã `../BRAND - TASTTO/` — esse repositório é o kit compartilhado do curso (github.com/dobralabs/ccos-ratos), então dado de negócio/cliente não deve ficar aqui dentro pra não ser commitado nele.
+Identidade visual e material recebido das marcas ficam nas pastas irmãs `../BRAND - ARTTICO/` e `../BRAND - TASTTO/` (design guides, logos, paleta, MIV, cases, marketing e relatórios de campanha, processos). Esse `ccos-ratos/` é o kit do curso (github.com/dobralabs/ccos-ratos) — mas por decisão da Ilze, workspace inteiro (kit + pastas de marca) está versionado junto no mesmo repositório privado no GitHub (`WORK-CLAUDE`), pra backup automático de tudo.
 
 ## Sobre o negócio
 Grupo Arttico atua em marketing, growth e performance, ajudando empresas a captar mais clientes, aumentar conversão comercial e vender mais pra própria base — com forte atuação em consultoria pra food service. Tastto é a plataforma do grupo voltada pra inteligência de dados e crescimento de restaurantes. Ilze é a social media interna, responsável pela estratégia de conteúdo e retenção de dados nas redes sociais das duas marcas.
@@ -60,7 +59,7 @@ No início de toda conversa, ler os seguintes arquivos (se existirem e estiverem
 
 Usar essas informações como base pra qualquer resposta ou decisão. Ao sugerir prioridades, formatos ou abordagens, considerar o foco atual descrito em `estrategia.md`.
 
-Para qualquer tarefa visual (carrossel, proposta, slide, landing page), consultar `marca/arttico/design-guide.md` ou `marca/tastto/design-guide.md` conforme a marca do pedido.
+Para qualquer tarefa visual (carrossel, proposta, slide, landing page), consultar `../BRAND - ARTTICO/design-guide.md` ou `../BRAND - TASTTO/design-guide.md` conforme a marca do pedido.
 
 Não é necessário listar o que foi lido nem confirmar a leitura. Apenas usar o contexto naturalmente.
 
@@ -84,7 +83,7 @@ Quando o usuário corrigir algo ou der uma instrução que parece permanente ("n
 - **Preferências e estilo** → `_contexto/preferencias.md`
 - **Prioridades e foco atual** → `_contexto/estrategia.md`
 - **Regra de comportamento nessa pasta** → este `CLAUDE.md`
-- **Mudança visual** → `marca/arttico/design-guide.md` ou `marca/tastto/design-guide.md`
+- **Mudança visual** → `../BRAND - ARTTICO/design-guide.md` ou `../BRAND - TASTTO/design-guide.md`
 
 Salvar só a linha nova, sem reformatar o arquivo inteiro.
 

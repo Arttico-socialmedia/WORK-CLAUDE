@@ -31,9 +31,7 @@ dados/*.json
 /curriculo/
 /tarefas.md
 
-# Marca e skills específicas do negócio (não fazem parte do kit ccos-ratos)
-/marca/arttico/
-/marca/tastto/
+# Skills específicas do negócio (não fazem parte do kit ccos-ratos)
 /.claude/skills/estrategia/
 /.claude/skills/operacional/
 /.claude/skills/restaurante/
