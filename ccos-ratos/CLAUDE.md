@@ -34,6 +34,7 @@ Varia por marca: Arttico é estratégico, direto e educativo, sem frase motivaci
 
 ## Ferramentas conectadas
 - [x] Google Drive
+- [x] Google Calendar (lembretes do calendário de agendamento, skill /publicar-instagram)
 - [ ] Google Docs / Sheets / Slides
 - [x] Meta Ads (skill /meta-ads-ratos)
 - [x] Google Ads (skill /google-ads-ratos)
