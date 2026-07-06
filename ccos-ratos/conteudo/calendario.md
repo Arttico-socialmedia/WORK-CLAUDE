@@ -26,5 +26,5 @@ Publicação continua 100% local (as chaves do Instagram/Post for Me ficam só n
 
 | Data | Hora | Marca | Conteúdo | Legenda (resumo) | Status | Link publicado |
 |---|---|---|---|---|---|---|
-| | | Tastto | conteudo/tastto/carrosseis/delivery-x-fidelizacao/instagram/ (carrossel, 5 slides) | "No delivery, todo pedido parece uma vitória. Mas pedido é transação, cliente é ativo..." | pronto | |
-| | | Arttico | conteudo/arttico/carrosseis/atualizacoes-api-oficial/instagram/ (carrossel, 3 slides) | "A Meta mudou a lógica de cobrança da API oficial do WhatsApp..." | pronto | |
+| | | Tastto | conteudo/tastto/carrosseis/delivery-x-fidelizacao/instagram/ (carrossel, 5 cards em vídeo) | PENDENTE — localizar o comentário com a legenda | pronto (falta legenda) | |
+| | | Arttico | conteudo/arttico/carrosseis/atualizacoes-api-oficial/instagram/ (carrossel, 3 slides) | "A Meta mudou a forma como a API oficial do WhatsApp funciona..." | pronto | |
