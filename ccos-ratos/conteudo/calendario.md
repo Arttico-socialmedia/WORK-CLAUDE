@@ -29,4 +29,4 @@ Publicação continua 100% local (as chaves do Instagram/Post for Me ficam só n
 | Data | Hora | Marca | Conteúdo | Legenda (resumo) | Status | Link publicado |
 |---|---|---|---|---|---|---|
 | 2026-07-07 |  | Tastto | conteudo/tastto/carrosseis/delivery-x-fidelizacao/instagram/ (carrossel, 5 cards em vídeo) | PENDENTE — localizar o comentário com a legenda | publicado (falta legenda) |  |
-| 2026-07-08 | 17:10 | Arttico | conteudo/arttico/carrosseis/atualizacoes-api-oficial/instagram/ (carrossel, 3 slides) | TESTE | aprovado |  |
+| 2026-07-08 | 17:35 | Arttico | conteudo/arttico/carrosseis/atualizacoes-api-oficial/instagram/ (carrossel, 3 slides) | TESTE | aprovado |  |
