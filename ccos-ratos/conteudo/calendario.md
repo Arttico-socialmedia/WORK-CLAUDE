@@ -2,6 +2,8 @@
 
 Fonte única de verdade de tudo que está programado pra publicar. Controlado por status — nada vai ao ar sem passar por "aprovado" e sem confirmação individual no momento da publicação.
 
+> Este arquivo é gerado automaticamente a partir de `calendario.json`. Não editar a tabela abaixo à mão — use `/calendario` (calendário visual) ou peça pro Claude. Editar `calendario.json` diretamente também funciona, mas prefira o comando `cli.js` pra manter os dois arquivos sincronizados.
+
 ## Status
 
 | Status | Significado |
@@ -26,5 +28,5 @@ Publicação continua 100% local (as chaves do Instagram/Post for Me ficam só n
 
 | Data | Hora | Marca | Conteúdo | Legenda (resumo) | Status | Link publicado |
 |---|---|---|---|---|---|---|
-| | | Tastto | conteudo/tastto/carrosseis/delivery-x-fidelizacao/instagram/ (carrossel, 5 cards em vídeo) | PENDENTE — localizar o comentário com a legenda | pronto (falta legenda) | |
-| | | Arttico | conteudo/arttico/carrosseis/atualizacoes-api-oficial/instagram/ (carrossel, 3 slides) | "A Meta mudou a forma como a API oficial do WhatsApp funciona..." | pronto | |
+|  |  | Tastto | conteudo/tastto/carrosseis/delivery-x-fidelizacao/instagram/ (carrossel, 5 cards em vídeo) | PENDENTE — localizar o comentário com a legenda | pronto (falta legenda) |  |
+|  |  | Arttico | conteudo/arttico/carrosseis/atualizacoes-api-oficial/instagram/ (carrossel, 3 slides) | "A Meta mudou a forma como a API oficial do WhatsApp funciona..." | pronto |  |
