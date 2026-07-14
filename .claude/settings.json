@@ -5,7 +5,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "bash -c 'cd \"/c/Users/artti/OneDrive/Área de Trabalho/WORK  - CLAUDE\" || exit 0; git rev-parse --git-dir >/dev/null 2>&1 || exit 0; git remote get-url origin >/dev/null 2>&1 || exit 0; git add -A >/dev/null 2>&1; git diff --staged --quiet && exit 0; git commit -m \"auto-sync: $(date +\"%Y-%m-%d %H:%M\")\" >/dev/null 2>&1; git push --quiet >/dev/null 2>&1; true'"
+            "command": "bash -c 'cd \"/c/Users/artti/WORK-CLAUDE\" || exit 0; git rev-parse --git-dir >/dev/null 2>&1 || exit 0; git remote get-url origin >/dev/null 2>&1 || exit 0; git add -A >/dev/null 2>&1; git diff --staged --quiet && exit 0; git commit -m \"auto-sync: $(date +\"%Y-%m-%d %H:%M\")\" >/dev/null 2>&1; git push --quiet >/dev/null 2>&1; true'"
           }
         ]
       }
