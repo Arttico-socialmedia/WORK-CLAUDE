@@ -1,0 +1,229 @@
+<title>Fechamento de Agosto</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap">
+<style>
+  :root{
+    /* Arttico — moldura institucional */
+    --arttico-navy:#010130;
+    --arttico-navy-2:#0d0d3d;
+    --line-dark:#2b2b5c;
+
+    /* Tastto — acento e sistema de status */
+    --tastto-deep:#1a1a2d;
+    --electric:#6c6cff;
+    --lavender:#b0afff;
+    --fog:#d6e1ea;
+    --orange:#f96a2b;
+
+    --paper:#f6f6fb;
+    --card:#ffffff;
+    --ink:#15152c;
+    --ink-2:#5c5c7a;
+    --ink-3:#9494ae;
+    --line:#e2e2f0;
+
+    --good:#2fbf71;
+    --good-bg:#e5f7ee;
+    --warn:#e0952a;
+    --warn-bg:#fbf0dd;
+
+    --serif:'Sora',-apple-system,'Segoe UI',sans-serif;
+    --sans:'IBM Plex Sans',-apple-system,'Segoe UI',sans-serif;
+    --mono:'IBM Plex Mono',ui-monospace,'SF Mono',monospace;
+  }
+
+  *,*::before,*::after{box-sizing:border-box}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:var(--sans);
+    font-size:16px;
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+  }
+  .deck{max-width:920px;margin:0 auto;padding:0 0 64px}
+
+  h1,h2,h3{font-family:var(--serif);font-weight:700;letter-spacing:-.01em;text-wrap:balance;margin:0}
+  p{margin:0}
+
+  .eyebrow{
+    font-family:var(--mono);font-size:11.5px;font-weight:600;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--electric);display:inline-flex;align-items:center;gap:9px;
+  }
+  .eyebrow.on-dark{color:var(--lavender)}
+
+  /* ---------- page chrome ---------- */
+  .page{padding:72px 56px}
+  .page.dark{background:var(--arttico-navy);color:#eceaf7}
+  .page.light{background:var(--paper)}
+  .page + .page.light{border-top:1px solid var(--line)}
+  .foot{
+    display:flex;justify-content:space-between;align-items:center;margin-top:48px;
+    font-family:var(--mono);font-size:11.5px;color:var(--ink-3);letter-spacing:.04em;
+  }
+  .page.dark .foot{color:#7a7ab0}
+
+  /* ---------- cover ---------- */
+  .cover{padding-top:96px;padding-bottom:96px}
+  .cover .eyebrow{margin-bottom:26px}
+  .cover .mark{
+    display:inline-flex;align-items:center;gap:10px;margin-bottom:34px;
+  }
+  .cover .mark i{width:10px;height:10px;border-radius:3px;background:var(--electric)}
+  .cover h1{font-size:clamp(40px,6.4vw,58px);color:#fff;line-height:1.06}
+  .cover .meta{
+    display:flex;gap:40px;margin-top:56px;padding-top:26px;border-top:1px solid var(--line-dark);
+  }
+  .cover .meta .k{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#8383b8}
+  .cover .meta .v{font-weight:600;color:#fff;margin-top:6px;font-size:15px}
+
+  h2.title{font-size:29px;margin-bottom:34px}
+  .section-head{margin-bottom:34px}
+  .section-head .eyebrow{margin-bottom:14px}
+
+  /* ---------- status cards ---------- */
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  .card{
+    background:var(--card);border:1px solid var(--line);border-radius:14px;padding:24px;
+    display:flex;flex-direction:column;gap:12px;
+  }
+  .card h3{font-size:16px}
+  .card p{color:var(--ink-2);font-size:14px;line-height:1.55}
+  .pill{
+    align-self:flex-start;display:inline-flex;align-items:center;gap:6px;
+    padding:4px 11px;border-radius:999px;font-family:var(--mono);
+    font-size:10.5px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;
+  }
+  .pill.good{background:var(--good-bg);color:var(--good)}
+  .pill.warn{background:var(--warn-bg);color:var(--warn)}
+  .pill.info{background:rgba(108,108,255,.12);color:var(--electric)}
+  .pill::before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor}
+
+  /* ---------- desafios ---------- */
+  .challenge{
+    display:grid;grid-template-columns:1fr auto;gap:18px;align-items:flex-start;
+    padding:22px 0;border-bottom:1px solid var(--line);
+  }
+  .challenge:first-of-type{border-top:1px solid var(--line)}
+  .challenge h3{font-size:16px;margin-bottom:6px}
+  .challenge p{color:var(--ink-2);font-size:14px}
+  .tag{
+    display:inline-flex;align-items:center;padding:5px 12px;border-radius:8px;
+    font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.06em;
+    border:1px solid var(--line);color:var(--ink-2);white-space:nowrap;margin-top:2px;
+  }
+  .tag.standby{color:var(--orange);border-color:#fbd3bd;background:#fdf0e9}
+  .tag.owner{color:var(--electric);border-color:#d7d7fb;background:#f0f0ff}
+
+  /* ---------- encerramento ---------- */
+  .steps{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:12px}
+  .steps li{
+    display:grid;grid-template-columns:1fr auto;gap:16px;align-items:center;
+    background:var(--arttico-navy-2);border:1px solid var(--line-dark);border-radius:12px;
+    padding:18px 20px;font-size:14.5px;color:#e4e3f5;
+  }
+  .steps .owner{
+    font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.08em;
+    color:var(--lavender);border:1px solid #3a3a72;padding:5px 12px;border-radius:999px;white-space:nowrap;
+  }
+
+  @media (max-width:640px){
+    .page{padding:52px 22px}
+    .grid2{grid-template-columns:1fr}
+  }
+</style>
+
+<div class="deck">
+
+  <!-- CAPA -->
+  <section class="page dark cover">
+    <span class="mark"><i></i><span class="eyebrow on-dark">Grupo Arttico · Marketing Interno</span></span>
+    <h1>Fechamento de Agosto</h1>
+    <div class="meta">
+      <div><div class="k">Data</div><div class="v">31 de agosto de 2026</div></div>
+    </div>
+    <div class="foot"><span>Uso interno · Grupo Arttico</span><span>01 / 04</span></div>
+  </section>
+
+  <!-- O QUE FOI FEITO -->
+  <section class="page light">
+    <div class="section-head">
+      <span class="eyebrow">O que foi feito</span>
+      <h2 class="title">Quatro frentes fechadas ou avançadas</h2>
+    </div>
+    <div class="grid2">
+      <div class="card">
+        <span class="pill good">Concluído</span>
+        <h3>Repositório do MKT interno</h3>
+        <p>Entregue, junto com a transição de responsável do tráfego de Pedro Ítalo para Lucas Felipe.</p>
+      </div>
+      <div class="card">
+        <span class="pill warn">Parcial</span>
+        <h3>Pastas de clientes no Drive</h3>
+        <p>Alinhamento com os CS's avançou, mas ainda não fechou — pendência que vem desde o fechamento de julho.</p>
+      </div>
+      <div class="card">
+        <span class="pill good">Concluído</span>
+        <h3>Edição de vídeo do Instagram</h3>
+        <p>A Mila assumiu 100% da edição dos vídeos do Instagram.</p>
+      </div>
+      <div class="card">
+        <span class="pill info">Validado</span>
+        <h3>Fluxo de design</h3>
+        <p>O novo fluxo de triagem e repasse ao designer (Renato) tem se mostrado ágil e vem dando certo.</p>
+      </div>
+      <div class="card">
+        <span class="pill good">Concluído</span>
+        <h3>Projeto Polaris</h3>
+        <p>CRM próprio da Arttico, desenvolvido internamente para centralizar o acompanhamento de leads e clientes.</p>
+      </div>
+    </div>
+    <div class="foot"><span>Fechamento de Agosto</span><span>02 / 04</span></div>
+  </section>
+
+  <!-- PRÓXIMOS DESAFIOS -->
+  <section class="page light">
+    <div class="section-head">
+      <span class="eyebrow">Próximos desafios</span>
+      <h2 class="title">O que abre setembro</h2>
+    </div>
+
+    <div class="challenge">
+      <div><h3>Reestruturar a LP da Arttico</h3><p>Reformular toda a landing page para comunicar a nova fase da empresa.</p></div>
+      <span class="tag">A definir</span>
+    </div>
+    <div class="challenge">
+      <div><h3>Ajustar a LP da Tastto</h3><p>Novas alterações para alinhar a página com o funil de tráfego atual.</p></div>
+      <span class="tag">A definir</span>
+    </div>
+    <div class="challenge">
+      <div><h3>Automação de postagens</h3><p>Projeto em andamento para automatizar publicações nos perfis de Instagram e TikTok.</p></div>
+      <span class="tag owner">Lucas</span>
+    </div>
+    <div class="challenge">
+      <div><h3>Pós iFood Move</h3><p>Produção de materiais e comunicação parada, aguardando mais informações para iniciar.</p></div>
+      <span class="tag standby">Em standby</span>
+    </div>
+    <div class="challenge">
+      <div><h3>Implementação do Polaris</h3><p>Colocar o CRM próprio em operação e mapear os impactos da mudança nos processos do time.</p></div>
+      <span class="tag owner">MKT Interno · Eduarda</span>
+    </div>
+
+    <div class="foot"><span>Fechamento de Agosto</span><span>03 / 04</span></div>
+  </section>
+
+  <!-- ENCERRAMENTO -->
+  <section class="page dark">
+    <div class="section-head">
+      <span class="eyebrow on-dark">Encerramento</span>
+      <h2 class="title" style="color:#fff">Encaminhamentos</h2>
+    </div>
+    <ul class="steps">
+      <li><span>Fechar o alinhamento das pastas de clientes no Drive com os CS's.</span><span class="owner">Time MKT</span></li>
+      <li><span>Seguir avançando a automação de postagens no Instagram e TikTok.</span><span class="owner">Lucas</span></li>
+      <li><span>Retomar o Pós iFood Move assim que as informações chegarem.</span><span class="owner">Thiago</span></li>
+    </ul>
+    <div class="foot"><span>Fechamento de Agosto</span><span>04 / 04</span></div>
+  </section>
+
+</div>
