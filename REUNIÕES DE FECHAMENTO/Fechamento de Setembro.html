@@ -1,0 +1,287 @@
+<title>Fechamento de Setembro</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap">
+<style>
+  :root{
+    /* Arttico — moldura institucional */
+    --arttico-navy:#010130;
+    --arttico-navy-2:#0d0d3d;
+    --line-dark:#2b2b5c;
+
+    /* Tastto — acento e sistema de status */
+    --tastto-deep:#1a1a2d;
+    --electric:#6c6cff;
+    --lavender:#b0afff;
+    --fog:#d6e1ea;
+    --orange:#f96a2b;
+
+    --paper:#f6f6fb;
+    --card:#ffffff;
+    --ink:#15152c;
+    --ink-2:#5c5c7a;
+    --ink-3:#9494ae;
+    --line:#e2e2f0;
+
+    --good:#2fbf71;
+    --good-bg:#e5f7ee;
+    --warn:#e0952a;
+    --warn-bg:#fbf0dd;
+
+    --serif:'Sora',-apple-system,'Segoe UI',sans-serif;
+    --sans:'IBM Plex Sans',-apple-system,'Segoe UI',sans-serif;
+    --mono:'IBM Plex Mono',ui-monospace,'SF Mono',monospace;
+  }
+
+  *,*::before,*::after{box-sizing:border-box}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:var(--sans);
+    font-size:16px;
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+  }
+  .deck{max-width:920px;margin:0 auto;padding:0 0 64px}
+
+  h1,h2,h3{font-family:var(--serif);font-weight:700;letter-spacing:-.01em;text-wrap:balance;margin:0}
+  p{margin:0}
+
+  .eyebrow{
+    font-family:var(--mono);font-size:11.5px;font-weight:600;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--electric);display:inline-flex;align-items:center;gap:9px;
+  }
+  .eyebrow.on-dark{color:var(--lavender)}
+
+  /* ---------- page chrome ---------- */
+  .page{padding:72px 56px}
+  .page.dark{background:var(--arttico-navy);color:#eceaf7}
+  .page.light{background:var(--paper)}
+  .page + .page.light{border-top:1px solid var(--line)}
+  .foot{
+    display:flex;justify-content:space-between;align-items:center;margin-top:48px;
+    font-family:var(--mono);font-size:11.5px;color:var(--ink-3);letter-spacing:.04em;
+  }
+  .page.dark .foot{color:#7a7ab0}
+
+  /* ---------- cover ---------- */
+  .cover{padding-top:96px;padding-bottom:96px}
+  .cover .eyebrow{margin-bottom:26px}
+  .cover .mark{display:inline-flex;align-items:center;gap:10px;margin-bottom:34px}
+  .cover .mark i{width:10px;height:10px;border-radius:3px;background:var(--electric)}
+  .cover h1{font-size:clamp(40px,6.4vw,58px);color:#fff;line-height:1.06}
+  .cover .meta{display:flex;gap:40px;margin-top:56px;padding-top:26px;border-top:1px solid var(--line-dark)}
+  .cover .meta .k{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#8383b8}
+  .cover .meta .v{font-weight:600;color:#fff;margin-top:6px;font-size:15px}
+
+  h2.title{font-size:29px;margin-bottom:34px}
+  .section-head{margin-bottom:34px}
+  .section-head .eyebrow{margin-bottom:14px}
+
+  .subhead{
+    font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.1em;
+    text-transform:uppercase;color:var(--ink-3);margin:0 0 14px;
+  }
+  .subhead:not(:first-child){margin-top:36px}
+
+  /* ---------- status cards ---------- */
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  .card{
+    background:var(--card);border:1px solid var(--line);border-radius:14px;padding:24px;
+    display:flex;flex-direction:column;gap:12px;
+  }
+  .card h3{font-size:16px}
+  .card p{color:var(--ink-2);font-size:14px;line-height:1.55}
+  .pill{
+    align-self:flex-start;display:inline-flex;align-items:center;gap:6px;
+    padding:4px 11px;border-radius:999px;font-family:var(--mono);
+    font-size:10.5px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;
+  }
+  .pill.good{background:var(--good-bg);color:var(--good)}
+  .pill.warn{background:var(--warn-bg);color:var(--warn)}
+  .pill.info{background:rgba(108,108,255,.12);color:var(--electric)}
+  .pill::before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor}
+
+  /* ---------- callout / quote ---------- */
+  .quote{
+    background:linear-gradient(155deg,rgba(108,108,255,.09),rgba(176,175,255,.06));
+    border:1px solid #d7d7fb;border-radius:14px;padding:24px 26px;
+  }
+  .quote .eyebrow{margin-bottom:10px}
+  .quote p{font-size:15px;line-height:1.65;color:var(--ink)}
+  .quote strong{color:var(--arttico-navy)}
+
+  /* ---------- proposta ---------- */
+  .proposal-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:28px}
+  .tool-card{
+    background:var(--card);border:1px solid var(--line);border-radius:14px;
+    padding:26px;display:flex;flex-direction:column;gap:6px;
+  }
+  .tool-card header{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+  .tool-card h3{font-size:19px}
+  .tool-price{
+    font-family:var(--mono);font-size:13px;font-weight:600;color:var(--electric);
+    background:rgba(108,108,255,.1);padding:5px 11px;border-radius:8px;white-space:nowrap;
+  }
+  .justify-list{list-style:none;margin:0;padding:0}
+  .justify-list li{padding:13px 0;border-top:1px solid var(--line)}
+  .justify-list li:first-child{border-top:none}
+  .justify-list b{display:block;font-family:var(--sans);font-size:14px;font-weight:600;color:var(--ink);margin-bottom:3px}
+  .justify-list span{display:block;font-size:12.5px;color:var(--ink-2);line-height:1.5}
+  .tool-note{font-size:12px;color:var(--ink-2);border-top:1px solid var(--line);padding-top:14px;margin-top:6px;font-style:italic;line-height:1.5}
+  .total-line{margin-top:24px;text-align:center;font-family:var(--mono);font-size:12.5px;color:var(--ink-2)}
+  .total-line b{color:var(--ink);font-weight:600}
+
+  /* ---------- desafios / encerramento ---------- */
+  .challenge{
+    display:grid;grid-template-columns:1fr auto;gap:18px;align-items:flex-start;
+    padding:22px 0;border-bottom:1px solid var(--line);
+  }
+  .challenge:first-of-type{border-top:1px solid var(--line)}
+  .challenge h3{font-size:16px;margin-bottom:6px}
+  .challenge p{color:var(--ink-2);font-size:14px}
+  .tag{
+    display:inline-flex;align-items:center;padding:5px 12px;border-radius:8px;
+    font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.06em;
+    border:1px solid var(--line);color:var(--ink-2);white-space:nowrap;margin-top:2px;
+  }
+  .tag.standby{color:var(--orange);border-color:#fbd3bd;background:#fdf0e9}
+  .tag.owner{color:var(--electric);border-color:#d7d7fb;background:#f0f0ff}
+
+  .steps{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:12px}
+  .steps li{
+    display:grid;grid-template-columns:1fr auto;gap:16px;align-items:center;
+    background:var(--arttico-navy-2);border:1px solid var(--line-dark);border-radius:12px;
+    padding:18px 20px;font-size:14.5px;color:#e4e3f5;
+  }
+  .steps .owner{
+    font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.08em;
+    color:var(--lavender);border:1px solid #3a3a72;padding:5px 12px;border-radius:999px;white-space:nowrap;
+  }
+
+  @media (max-width:640px){
+    .page{padding:52px 22px}
+    .grid2,.proposal-grid{grid-template-columns:1fr}
+  }
+</style>
+
+<div class="deck">
+
+  <!-- CAPA -->
+  <section class="page dark cover">
+    <span class="mark"><i></i><span class="eyebrow on-dark">Grupo Arttico · Marketing Interno</span></span>
+    <h1>Fechamento de Setembro</h1>
+    <div class="meta">
+      <div><div class="k">Data</div><div class="v">30 de setembro de 2026</div></div>
+    </div>
+    <div class="foot"><span>Uso interno · Grupo Arttico</span><span>01 / 04</span></div>
+  </section>
+
+  <!-- O QUE FOI FEITO -->
+  <section class="page light">
+    <div class="section-head">
+      <span class="eyebrow">O que foi feito</span>
+      <h2 class="title">Duas frentes finalizadas, quatro em andamento</h2>
+    </div>
+
+    <p class="subhead">Finalizado</p>
+    <div class="grid2">
+      <div class="card">
+        <span class="pill good">Finalizado</span>
+        <h3>Pós iFood Move</h3>
+        <p>Produção de materiais e comunicação concluída.</p>
+      </div>
+      <div class="card">
+        <span class="pill good">Finalizado</span>
+        <h3>Implementação do Polaris</h3>
+        <p>CRM próprio da Arttico implementado e em operação.</p>
+      </div>
+    </div>
+
+    <p class="subhead">Em andamento</p>
+    <div class="grid2">
+      <div class="card">
+        <span class="pill info">Em andamento</span>
+        <h3>Reestruturação da LP da Arttico</h3>
+        <p>Na etapa de adaptação à nova plataforma de produção, para comunicar a nova fase da empresa.</p>
+      </div>
+      <div class="card">
+        <span class="pill info">Em andamento</span>
+        <h3>Ajustes na LP da Tastto</h3>
+        <p>Alterações para alinhar a página ao funil de tráfego atual, também na etapa de adaptação à nova plataforma.</p>
+      </div>
+      <div class="card">
+        <span class="pill info">Em andamento</span>
+        <h3>Automação de postagens</h3>
+        <p>Instabilidade no upload de vídeos identificada; Lucas já está resolvendo.</p>
+      </div>
+      <div class="card">
+        <span class="pill info">Em andamento</span>
+        <h3>Identidade do Polaris Academy</h3>
+        <p>Produção bem encaminhada — falta só receber as dimensões que a Eduarda vai passar.</p>
+      </div>
+    </div>
+
+    <div class="quote" style="margin-top:32px">
+      <span class="eyebrow">Nota técnica</span>
+      <p>As duas LPs estão migrando a produção para o <strong>Framer</strong> — a ferramenta dá mais agilidade à produção, permite maior personalização do que o fluxo anterior e já concentra bastante recurso de IA embutido no editor. Ganhos que se somam à proposta de assinatura na próxima página.</p>
+    </div>
+
+    <div class="foot"><span>Fechamento de Setembro</span><span>02 / 04</span></div>
+  </section>
+
+  <!-- PROPOSTA -->
+  <section class="page light">
+    <div class="section-head">
+      <span class="eyebrow">Proposta</span>
+      <h2 class="title">Assinatura Figma + Framer Pro</h2>
+    </div>
+
+    <div class="quote">
+      <span class="eyebrow">Validado na prática — Ilze</span>
+      <p>"Já paguei um mês do Figma e consigo validar os ganhos de agilidade na prática. Continuo estudando a ferramenta para identificar novas funcionalidades úteis para a equipe."</p>
+    </div>
+
+    <div class="proposal-grid">
+      <div class="tool-card">
+        <header><h3>Figma</h3><span class="tool-price">US$ 20 / mês</span></header>
+        <ul class="justify-list">
+          <li><b>Agilidade em apresentações</b><span>Facilita alterações e ajustes em apresentações longas, como a do palestrante.</span></li>
+          <li><b>Agilidade em cardápios e materiais de clientes</b><span>Otimiza a criação e adaptação de diferentes materiais.</span></li>
+          <li><b>IA para tarefas repetitivas e revisão de textos</b><span>Acelera ajustes que seriam feitos manualmente e auxilia na revisão e melhoria de textos.</span></li>
+          <li><b>IA de geração de imagens integrada</b><span>Acesso a diferentes ferramentas de geração de imagem direto no fluxo do Figma, como a Nano Banana Pro, que hoje não temos.</span></li>
+          <li><b>Centralização dos materiais na nuvem</b><span>Mantém os materiais de trabalho centralizados, com acesso, visualização e edição direto pela nuvem. A versão gratuita tem limitações de organização e quantidade de arquivos/projetos; o Pro oferece uma estrutura adequada para centralizar o fluxo.</span></li>
+        </ul>
+        <p class="tool-note">É a ferramenta de web design que mais se atualiza em IA, automação e novas tecnologias do mercado.</p>
+      </div>
+
+      <div class="tool-card">
+        <header><h3>Framer</h3><span class="tool-price">R$ 70 / mês</span></header>
+        <ul class="justify-list">
+          <li><b>Agilidade no desenvolvimento</b><span>Por já usar e dominar a ferramenta, dá para desenvolver o site em menos tempo, aproveitando um fluxo de trabalho já conhecido.</span></li>
+          <li><b>Autonomia para alterações</b><span>Permite ajustar o site diretamente, sem depender exclusivamente de resultados gerados por prompts.</span></li>
+          <li><b>Maior fidelidade ao design planejado</b><span>Mais controle sobre a implementação visual, com mais precisão entre o layout projetado e o resultado final.</span></li>
+          <li><b>Criação de subpáginas conforme a necessidade</b><span>Permite expandir o site com novas páginas, como LPs e conteúdos, sem precisar reconstruir toda a estrutura.</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <p class="total-line">Investimento mensal proposto: <b>US$ 20</b> (Figma) + <b>R$ 70</b> (Framer)</p>
+
+    <div class="foot"><span>Fechamento de Setembro</span><span>03 / 04</span></div>
+  </section>
+
+  <!-- ENCERRAMENTO -->
+  <section class="page dark">
+    <div class="section-head">
+      <span class="eyebrow on-dark">Encerramento</span>
+      <h2 class="title" style="color:#fff">Encaminhamentos</h2>
+    </div>
+    <ul class="steps">
+      <li><span>Aprovar a assinatura do Figma e do Framer Pro.</span><span class="owner">Decisão</span></li>
+      <li><span>Resolver a instabilidade de upload de vídeo na automação de postagens.</span><span class="owner">Lucas</span></li>
+      <li><span>Fechar a identidade do Polaris Academy assim que as dimensões chegarem.</span><span class="owner">Eduarda</span></li>
+    </ul>
+    <div class="foot"><span>Fechamento de Setembro</span><span>04 / 04</span></div>
+  </section>
+
+</div>
