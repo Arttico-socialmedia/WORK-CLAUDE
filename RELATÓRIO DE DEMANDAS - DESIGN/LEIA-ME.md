@@ -1,6 +1,6 @@
 # Relatório de demandas — DESIGN
 
-Relatório semanal das demandas **de clientes** no kanban DESIGN do ClickUp, com foco em:
+Relatório semanal das demandas **de clientes da Tastto** no kanban DESIGN do ClickUp, com foco em:
 - quanto tempo as demandas ficam **em aberto**;
 - quanto tempo levam até serem **finalizadas**;
 - quanto tempo passam **em análise**.
@@ -17,7 +17,8 @@ Ele lê o ClickUp, gera o relatório e envia sozinho para o GitHub.
 - Histórico de execuções e erros: `logs/execucao.log`.
 
 ## Ajustes
-- **`clientes.txt`**: lista de clientes (um por linha). Uma tarefa conta como "de cliente" quando o nome do cliente aparece no título, nas tags ou nos campos dela.
+- **`clientes.txt`**: clientes da Tastto (um por linha). Tem uma seção "A CONFIRMAR" — tire o `#` dos que forem clientes. Uma tarefa conta como "de cliente" quando o nome do cliente aparece no título, nas tags ou nos campos dela.
+- **`ignorar.txt`**: nomes que não são clientes da Tastto (clientes da Arttico, marcas próprias). Tarefas que começam com `C |` ou `E |` são sempre ignoradas.
 - **`config.json`**:
   - `list_ids`: listas do ClickUp analisadas
   - `crm_list_id`: lista do CRM para atualizar os clientes sozinho

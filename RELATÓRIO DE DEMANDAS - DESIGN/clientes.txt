@@ -1,6 +1,8 @@
-# Clientes (Tastto e Arttico), um por linha.
-# Apelidos/grafias alternativas depois de "=", separados por vírgula: Nome = apelido1, apelido2
-# Acentos e maiúsculas não importam. Base: CRM do ClickUp (03/07/2026) + nomes que aparecem no kanban DESIGN (02/10/2026).
+# Clientes da TASTTO — só tarefas desses clientes entram no relatório.
+# Um por linha. Apelidos/grafias alternativas depois de "=", separados por vírgula: Nome = apelido1, apelido2
+# Acentos e maiúsculas não importam.
+
+# --- Base: CRM da Tastto no ClickUp (03/07/2026) ---
 The Dew
 Dunnas
 Kalaz
@@ -26,47 +28,28 @@ Tabu
 Rota 84
 Açaí Daora
 Kale do Bem
+
+# --- Restaurantes que aparecem no kanban DESIGN (02/10/2026) ---
 Zuri Sushi
 Veg Food
 Churrascaria Araújo
 Temperei Pizzas
-Velleza
-Polaris Academy
 Massa Fina
-Reis Magos
-Martiniano
-Just
-Rocco
 Paneer = panner
-B2BIT
-Ruöka
-Davi Auto Center
-iGráfica
-Mahogany
-Valéria Calazans
 Pudinharia = pundinharia
-Pousada Xamã = xama
-Dental Med = dental med center
-Click Cirurgia
-Flor de Algodão
-Zou
-José Claudino
-Rafael Medeiros
-Casa de Psi = casa de psicologia
-Canto Tem
-Vert = vert motel
-Trópicos
-Casa da Gil = casa da gil eventos
-Geoenge
-Supreme Gorgon
-Wellvolution
-Faceponto
-Marquesa
-Clube do Poker
-Divinas Gerais
-Beco Mágico
-Achamos Chique
-Abrasel
-VNA
-DLI
-Outlier
+
+# --- A CONFIRMAR: tire o "#" da frente se for cliente da Tastto ---
+# Rocco
+# Just
+# Martiniano
+# Reis Magos
+# Ruöka
+# Mahogany
+# Divinas Gerais
+# Beco Mágico
+# Achamos Chique
+# Marquesa
+# Clube do Poker
+# Supreme Gorgon
+# Canto Tem
+# Outlier

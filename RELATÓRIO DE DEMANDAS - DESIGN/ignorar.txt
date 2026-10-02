@@ -1,0 +1,31 @@
+# Nomes que NÃO são clientes da Tastto (clientes da Arttico, marcas próprias, eventos).
+# Tarefas com esses nomes no título ficam fora do relatório e da lista "sem cliente identificado".
+# Tarefas que começam com "C |" ou "E |" já são ignoradas automaticamente (posts da Tastto/Arttico).
+Arttico
+Tastto
+Tastto e Arttico
+Pós iFood Move
+Case - MK
+B2BIT
+Davi Auto Center
+iGráfica
+Valéria Calazans
+Pousada Xamã = xama
+Dental Med = dental med center
+Click Cirurgia
+Flor de Algodão
+Zou
+José Claudino
+Rafael Medeiros
+Casa de Psi = casa de psicologia, psiquiatra
+Vert = vert motel
+Trópicos
+Casa da Gil = casa da gil eventos
+Geoenge
+Wellvolution
+Faceponto
+Abrasel
+VNA
+DLI
+Velleza
+Polaris Academy

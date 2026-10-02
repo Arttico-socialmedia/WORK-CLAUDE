@@ -98,27 +98,37 @@ def buscar_tempo_em_status(ids, token):
     return resultado
 
 
-def carregar_clientes(config, token):
-    nomes = [l.strip() for l in (PASTA / "clientes.txt").read_text(encoding="utf-8").splitlines()
-             if l.strip() and not l.startswith("#")]
-    if config.get("crm_list_id"):
-        for t in buscar_tarefas(config["crm_list_id"], token):
-            nomes.append(t["name"])
-    vistos, clientes = set(), []
-    for linha in nomes:
+def ler_nomes(arquivo):
+    """Lê um arquivo de nomes (um por linha, apelidos depois de '=') e devolve [(nome, chave_normalizada)]."""
+    vistos, nomes = set(), []
+    for linha in (PASTA / arquivo).read_text(encoding="utf-8").splitlines():
+        linha = linha.strip()
+        if not linha or linha.startswith("#"):
+            continue
         nome, _, apelidos = linha.partition("=")
         nome = nome.strip()
         for chave in [normalizar(nome)] + [normalizar(a) for a in apelidos.split(",")]:
             if chave and chave not in vistos:
                 vistos.add(chave)
-                clientes.append((nome, chave))
+                nomes.append((nome, chave))
+    return nomes
+
+
+def carregar_clientes(config, token):
+    clientes = ler_nomes("clientes.txt")
+    if config.get("crm_list_id"):
+        conhecidos = {c for _, c in clientes}
+        for t in buscar_tarefas(config["crm_list_id"], token):
+            if normalizar(t["name"]) not in conhecidos:
+                clientes.append((t["name"], normalizar(t["name"])))
     return clientes
 
 
-def eh_interna(t, config):
-    """Tarefa interna (posts/peças da própria Arttico ou Tastto): algum trecho do título é um marcador interno."""
-    marcadores = {normalizar(m) for m in config.get("marcadores_internos", [])}
-    return any(normalizar(p) in marcadores for p in t["name"].split("|"))
+def eh_interna(t, ignorar):
+    """Posts da Tastto/Arttico ("C | ..." e "E | ...") ou tarefas de quem não é cliente da Tastto."""
+    if re.match(r"\s*[CE]\s*\|", t["name"]):
+        return True
+    return identificar_cliente(t, ignorar) is not None
 
 
 def textos_da_tarefa(t):
@@ -237,7 +247,7 @@ def montar_relatorio(itens, sem_cliente, config, agora, inicio, anterior):
     ant = anterior or {}
 
     L = []
-    L.append(f"# Relatório de demandas de clientes — DESIGN")
+    L.append(f"# Relatório de demandas de clientes Tastto — DESIGN")
     L.append(f"**Semana:** {fmt_data(inicio, fuso)} a {fmt_data(agora, fuso)}/{(agora + timedelta(hours=fuso)).year} · "
              f"gerado em {(agora + timedelta(hours=fuso)).strftime('%d/%m/%Y %H:%M')}\n")
 
@@ -325,8 +335,8 @@ def montar_relatorio(itens, sem_cliente, config, agora, inicio, anterior):
 
     if sem_cliente:
         L.append("## ❔ Demandas abertas sem cliente identificado")
-        L.append("Não entraram nos números acima. Se alguma for de cliente, inclua o nome dele no título "
-                 "da tarefa ou adicione o cliente em `clientes.txt`.\n")
+        L.append("Não entraram nos números acima. Se alguma for de cliente da Tastto, inclua o nome dele no título "
+                 "da tarefa ou adicione em `clientes.txt` (se não for, adicione em `ignorar.txt`).\n")
         for t in sem_cliente[:30]:
             L.append(f"- [{t['name']}]({t.get('url', '')}) — {t['status']['status']}")
         if len(sem_cliente) > 30:
@@ -381,16 +391,21 @@ def main():
         tarefas += buscar_tarefas(list_id, token)
 
     finalizados = {normalizar(s) for s in config["status_finalizados"]}
+    ignorar = ler_nomes("ignorar.txt")
     relevantes, sem_cliente = [], []
     for t in tarefas:
         fechada = normalizar(t["status"]["status"]) in finalizados or t["status"].get("type") in ("done", "closed")
         concluida = ms_para_dt(t.get("date_done") or t.get("date_closed"))
         if fechada and not (concluida and concluida >= inicio):
             continue  # finalizada antes desta semana
+        if re.match(r"\s*[CE]\s*\|", t["name"]):
+            continue  # posts da Tastto/Arttico
         cliente = identificar_cliente(t, clientes)
+        if not cliente and eh_interna(t, ignorar):
+            continue  # cliente da Arttico, marca própria ou evento
         if cliente:
             relevantes.append((t, cliente))
-        elif not fechada and not eh_interna(t, config):
+        elif not fechada:
             sem_cliente.append(t)
 
     tis = buscar_tempo_em_status([t["id"] for t, _ in relevantes], token)
