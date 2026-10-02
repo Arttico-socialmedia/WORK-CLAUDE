@@ -255,8 +255,10 @@ def montar_relatorio(itens, sem_cliente, config, agora, inicio, anterior):
 
     alertas = []
     for i in em_analise:
-        if (i["tempo_status_atual_min"] or 0) > lim_analise:
-            alertas.append(f"- 🔴 **{link(i)}** está em análise há **{dur(i['tempo_status_atual_min'])}**")
+        total = max(i["analise_min"] or 0, i["tempo_status_atual_min"] or 0)
+        if total > lim_analise:
+            alertas.append(f"- 🔴 **{link(i)}** já soma **{dur(total)}** em análise "
+                           f"(está nela agora há {dur(i['tempo_status_atual_min'])})")
     for i in abertas:
         if i["atrasada"]:
             alertas.append(f"- ⏰ **{link(i)}** passou do prazo ({fmt_data(i['prazo'], fuso)}) — status: {i['status']}")
