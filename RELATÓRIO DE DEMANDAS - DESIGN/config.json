@@ -1,0 +1,9 @@
+{
+  "list_ids": ["901305686770"],
+  "crm_list_id": null,
+  "status_analise": "análise",
+  "status_finalizados": ["feito", "finalizado"],
+  "alerta_dias_aberto": 7,
+  "alerta_dias_analise": 2,
+  "fuso_utc": -3
+}

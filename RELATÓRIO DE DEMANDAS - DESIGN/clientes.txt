@@ -1,0 +1,27 @@
+# Clientes da Tastto (um por linha). Base: CRM do ClickUp em 03/07/2026.
+# Se a lista CRM estiver configurada em config.json, os nomes de lá são somados a estes.
+The Dew
+Dunnas
+Kalaz
+Menéz
+Caravela
+Galeteria DuChiquinho
+MK Burger
+Casa Moscou
+Fogo ao Quadrado
+Uni Sabor
+Nippon
+Zamô
+Home Sushi Home
+Alô Pizza
+Recanto do Picuí
+Farofa D'água
+Casa Nacre
+Cardume
+Corte 84
+Tuna
+Empório do Pão
+Tabu
+Rota 84
+Açaí Daora
+Kale do Bem
