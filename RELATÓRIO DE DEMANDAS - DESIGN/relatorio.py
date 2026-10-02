@@ -105,12 +105,20 @@ def carregar_clientes(config, token):
         for t in buscar_tarefas(config["crm_list_id"], token):
             nomes.append(t["name"])
     vistos, clientes = set(), []
-    for nome in nomes:
-        chave = normalizar(nome)
-        if chave and chave not in vistos:
-            vistos.add(chave)
-            clientes.append((nome, chave))
+    for linha in nomes:
+        nome, _, apelidos = linha.partition("=")
+        nome = nome.strip()
+        for chave in [normalizar(nome)] + [normalizar(a) for a in apelidos.split(",")]:
+            if chave and chave not in vistos:
+                vistos.add(chave)
+                clientes.append((nome, chave))
     return clientes
+
+
+def eh_interna(t, config):
+    """Tarefa interna (posts/peças da própria Arttico ou Tastto): algum trecho do título é um marcador interno."""
+    marcadores = {normalizar(m) for m in config.get("marcadores_internos", [])}
+    return any(normalizar(p) in marcadores for p in t["name"].split("|"))
 
 
 def textos_da_tarefa(t):
@@ -380,8 +388,8 @@ def main():
         cliente = identificar_cliente(t, clientes)
         if cliente:
             relevantes.append((t, cliente))
-        elif not fechada and not re.search(r"\|\s*(arttico|tastto)\s*$", normalizar(t["name"])):
-            sem_cliente.append(t)  # posts internos (título terminando em | ARTTICO / | TASTTO) ficam de fora
+        elif not fechada and not eh_interna(t, config):
+            sem_cliente.append(t)
 
     tis = buscar_tempo_em_status([t["id"] for t, _ in relevantes], token)
     itens = []
