@@ -67,6 +67,11 @@ async function sheetsGet(spreadsheetId, range, accessToken) {
   return json;
 }
 
+async function tabExiste(spreadsheetId, tab, accessToken) {
+  const r = await sheetsGet(spreadsheetId, `'${tab}'!A1`, accessToken);
+  return !(r && r.error);
+}
+
 async function sheetsBatchUpdate(spreadsheetId, data, accessToken) {
   const body = JSON.stringify({ valueInputOption: "USER_ENTERED", data });
   const { json } = await httpsRequest(
@@ -132,10 +137,14 @@ function breakdownValue(insight, key) {
 
 const MESES = ["Janeiro","Fevereiro","Março","Abril","Maio","Junho","Julho","Agosto","Setembro","Outubro","Novembro","Dezembro"];
 
-function currentTabName(date) {
+function tabNameFor(date) {
   const mes = MESES[date.getMonth()];
   const yy = String(date.getFullYear()).slice(2);
   return `${mes} ${yy}`;
+}
+
+function mesAnterior(date) {
+  return new Date(date.getFullYear(), date.getMonth() - 1, 1);
 }
 
 function parseWeekLabel(label) {
@@ -151,9 +160,20 @@ function parseWeekLabel(label) {
 async function processarMarca(nome, spreadsheetId, accountId, env, accessToken) {
   console.log(`\n=== ${nome} ===`);
   const hoje = new Date();
-  const tab = currentTabName(hoje);
-  const ano = hoje.getFullYear();
+  const candidatos = [mesAnterior(hoje), hoje];
 
+  for (const dataRef of candidatos) {
+    const tab = tabNameFor(dataRef);
+    const existe = await tabExiste(spreadsheetId, tab, accessToken);
+    if (!existe) {
+      console.log(`Aba "${tab}" ainda nao existe, pulando (precisa ser criada manualmente).`);
+      continue;
+    }
+    await processarAba(tab, dataRef.getFullYear(), spreadsheetId, accountId, env, accessToken, hoje);
+  }
+}
+
+async function processarAba(tab, ano, spreadsheetId, accountId, env, accessToken, hoje) {
   const colG = await sheetsGet(spreadsheetId, `'${tab}'!G21:H25`, accessToken);
   const colJR = await sheetsGet(spreadsheetId, `'${tab}'!J37:Z41`, accessToken);
 
