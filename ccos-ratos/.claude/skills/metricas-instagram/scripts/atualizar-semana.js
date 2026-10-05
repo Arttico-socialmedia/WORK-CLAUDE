@@ -196,6 +196,7 @@ async function processarAba(tab, ano, spreadsheetId, accountId, env, accessToken
 
   if (!alvo) {
     console.log(`Nada a preencher em ${tab} (nenhuma semana completa esta pendente).`);
+    await preencherResumoMensal(tab, ano, spreadsheetId, accountId, env, accessToken, hoje);
     return;
   }
 
@@ -207,7 +208,21 @@ async function processarAba(tab, ano, spreadsheetId, accountId, env, accessToken
 
   console.log(`Preenchendo linha da semana ${alvo.rowG - 20} (${inicio.toISOString().slice(0,10)} a ${alvo.parsed.end.d}/${alvo.parsed.end.mo})`);
 
-  const token = env.INSTAGRAM_ACCESS_TOKEN;
+  const m = await buscarMetricas(accountId, env.INSTAGRAM_ACCESS_TOKEN, since, until);
+
+  const updates = [
+    { range: `'${tab}'!H${alvo.rowG}`, values: [[m.followerDelta]] },
+    { range: `'${tab}'!K${rowJR}:P${rowJR}`, values: [[m.alcanceGeral, m.alcanceGeral, m.seguidoresAlcance, m.naoSeguidoresAlcance, m.visitasPerfil, m.toquesSite]] },
+    { range: `'${tab}'!S${rowJR}:Z${rowJR}`, values: [[m.engajamento, "", "", m.interacoesGeral, m.interacoesGeral, m.interPost, m.interReel, m.interStory]] },
+  ];
+
+  const result = await sheetsBatchUpdate(spreadsheetId, updates, accessToken);
+  console.log(`Escrito: ${result.totalUpdatedCells} celulas atualizadas em "${tab}".`);
+
+  await preencherResumoMensal(tab, ano, spreadsheetId, accountId, env, accessToken, hoje);
+}
+
+async function buscarMetricas(accountId, token, since, until) {
   const [reach, engaged, interactions, profileViews, websiteClicks, followerDelta] = await Promise.all([
     igInsight(accountId, token, "reach", since, until, "follow_type"),
     igInsight(accountId, token, "accounts_engaged", since, until),
@@ -223,25 +238,63 @@ async function processarAba(tab, ano, spreadsheetId, accountId, env, accessToken
     console.log(`Aviso: ${interBd.AD} interacoes vieram de conteudo impulsionado (AD) e nao entram em nenhuma coluna (sem coluna propria na planilha).`);
   }
 
-  const alcanceGeral = reach.total_value.value;
-  const seguidoresAlcance = reachBd.FOLLOWER || 0;
-  const naoSeguidoresAlcance = reachBd.NON_FOLLOWER || 0;
-  const visitasPerfil = profileViews.total_value.value;
-  const toquesSite = websiteClicks.total_value.value;
-  const engajamento = engaged.total_value.value;
-  const interacoesGeral = interactions.total_value.value;
-  const interPost = interBd.POST || 0;
-  const interReel = interBd.REEL || 0;
-  const interStory = interBd.STORY || 0;
+  return {
+    followerDelta,
+    alcanceGeral: reach.total_value.value,
+    seguidoresAlcance: reachBd.FOLLOWER || 0,
+    naoSeguidoresAlcance: reachBd.NON_FOLLOWER || 0,
+    visitasPerfil: profileViews.total_value.value,
+    toquesSite: websiteClicks.total_value.value,
+    engajamento: engaged.total_value.value,
+    interacoesGeral: interactions.total_value.value,
+    interPost: interBd.POST || 0,
+    interReel: interBd.REEL || 0,
+    interStory: interBd.STORY || 0,
+  };
+}
+
+// Preenche a linha de resumo do mes nas tabelas anuais ("Seguidores 2026", "Contas alcancadas/engajamento 2026")
+// quando o mes ja terminou e essa linha ainda esta vazia. Segue o mesmo princípio das semanas: so preenche o que falta.
+async function preencherResumoMensal(tab, ano, spreadsheetId, accountId, env, accessToken, hoje) {
+  const mesIndex = MESES.findIndex((m) => tab.startsWith(m));
+  if (mesIndex < 0) return;
+  const fimMes = new Date(ano, mesIndex + 1, 0, 23, 59, 59); // ultimo dia do mes
+  if (fimMes >= hoje) return; // mes ainda nao terminou
+
+  const rowSeguidores = 21 + mesIndex;
+  const rowAlcanceEngaj = 22 + mesIndex; // tabelas de alcance/engajamento tem 1 linha de cabecalho a mais
+
+  const [colD, colK] = await Promise.all([
+    sheetsGet(spreadsheetId, `'${tab}'!D${rowSeguidores}`, accessToken),
+    sheetsGet(spreadsheetId, `'${tab}'!K${rowAlcanceEngaj}`, accessToken),
+  ]);
+  const seguidoresPreenchido = colD.values && colD.values[0] && colD.values[0][0] !== undefined && colD.values[0][0] !== "";
+  const alcancePreenchido = colK.values && colK.values[0] && colK.values[0][0] !== undefined && colK.values[0][0] !== "";
+  if (seguidoresPreenchido && alcancePreenchido) return; // resumo do mes ja esta completo
+
+  console.log(`Preenchendo resumo mensal de ${MESES[mesIndex]} em "${tab}".`);
+
+  const inicioMes = new Date(ano, mesIndex, 1, 0, 0, 0);
+  const fimMesExclusivo = new Date(ano, mesIndex + 1, 1, 0, 0, 0);
+  const since = Math.floor(inicioMes.getTime() / 1000);
+  const until = Math.floor(fimMesExclusivo.getTime() / 1000);
+
+  // soma das semanas ja preenchidas (H21:H25) para o total de seguidores do mes
+  const semanas = await sheetsGet(spreadsheetId, `'${tab}'!H21:H25`, accessToken);
+  const somaSeguidores = (semanas.values || []).reduce((acc, row) => {
+    const v = row && row[0];
+    return v !== undefined && v !== "" ? acc + Number(v) : acc;
+  }, 0);
+
+  const m = await buscarMetricas(accountId, env.INSTAGRAM_ACCESS_TOKEN, since, until);
 
   const updates = [
-    { range: `'${tab}'!H${alvo.rowG}`, values: [[followerDelta]] },
-    { range: `'${tab}'!K${rowJR}:P${rowJR}`, values: [[alcanceGeral, alcanceGeral, seguidoresAlcance, naoSeguidoresAlcance, visitasPerfil, toquesSite]] },
-    { range: `'${tab}'!S${rowJR}:Z${rowJR}`, values: [[engajamento, "", "", interacoesGeral, interacoesGeral, interPost, interReel, interStory]] },
+    { range: `'${tab}'!D${rowSeguidores}`, values: [[somaSeguidores]] },
+    { range: `'${tab}'!K${rowAlcanceEngaj}:P${rowAlcanceEngaj}`, values: [[m.alcanceGeral, m.alcanceGeral, m.seguidoresAlcance, m.naoSeguidoresAlcance, m.visitasPerfil, m.toquesSite]] },
+    { range: `'${tab}'!S${rowAlcanceEngaj}:Z${rowAlcanceEngaj}`, values: [[m.engajamento, "", "", m.interacoesGeral, m.interacoesGeral, m.interPost, m.interReel, m.interStory]] },
   ];
-
   const result = await sheetsBatchUpdate(spreadsheetId, updates, accessToken);
-  console.log(`Escrito: ${result.totalUpdatedCells} celulas atualizadas em "${tab}".`);
+  console.log(`Resumo mensal escrito: ${result.totalUpdatedCells} celulas em "${tab}".`);
 }
 
 async function renovarTokenInstagram(env) {
