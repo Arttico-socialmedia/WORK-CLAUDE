@@ -264,11 +264,11 @@ async function preencherResumoMensal(tab, ano, spreadsheetId, accountId, env, ac
   const rowSeguidores = 21 + mesIndex;
   const rowAlcanceEngaj = 22 + mesIndex; // tabelas de alcance/engajamento tem 1 linha de cabecalho a mais
 
-  const [colD, colK] = await Promise.all([
-    sheetsGet(spreadsheetId, `'${tab}'!D${rowSeguidores}`, accessToken),
+  const [colE, colK] = await Promise.all([
+    sheetsGet(spreadsheetId, `'${tab}'!E${rowSeguidores}`, accessToken),
     sheetsGet(spreadsheetId, `'${tab}'!K${rowAlcanceEngaj}`, accessToken),
   ]);
-  const seguidoresPreenchido = colD.values && colD.values[0] && colD.values[0][0] !== undefined && colD.values[0][0] !== "";
+  const seguidoresPreenchido = colE.values && colE.values[0] && colE.values[0][0] !== undefined && colE.values[0][0] !== "";
   const alcancePreenchido = colK.values && colK.values[0] && colK.values[0][0] !== undefined && colK.values[0][0] !== "";
   if (seguidoresPreenchido && alcancePreenchido) return; // resumo do mes ja esta completo
 
@@ -289,7 +289,7 @@ async function preencherResumoMensal(tab, ano, spreadsheetId, accountId, env, ac
   const m = await buscarMetricas(accountId, env.INSTAGRAM_ACCESS_TOKEN, since, until);
 
   const updates = [
-    { range: `'${tab}'!D${rowSeguidores}`, values: [[somaSeguidores]] },
+    { range: `'${tab}'!E${rowSeguidores}`, values: [[somaSeguidores]] },
     { range: `'${tab}'!K${rowAlcanceEngaj}:P${rowAlcanceEngaj}`, values: [[m.alcanceGeral, m.alcanceGeral, m.seguidoresAlcance, m.naoSeguidoresAlcance, m.visitasPerfil, m.toquesSite]] },
     { range: `'${tab}'!S${rowAlcanceEngaj}:Z${rowAlcanceEngaj}`, values: [[m.engajamento, "", "", m.interacoesGeral, m.interacoesGeral, m.interPost, m.interReel, m.interStory]] },
   ];
