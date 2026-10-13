@@ -7,6 +7,7 @@ Uso:
   python relatorio.py              # gera o relatório e envia para o GitHub
   python relatorio.py --sem-push   # gera só o arquivo, sem commit/push
   python relatorio.py --descobrir  # lista espaços/pastas/listas do ClickUp (para achar o CRM)
+  pythonw relatorio.py --agendado  # modo do Agendador: sem janela, registra tudo em logs/execucao.log
 """
 import json
 import re
@@ -363,20 +364,40 @@ def descobrir(token):
                     print(f"      Lista: {lst['name']} ({lst['id']})")
 
 
+def git(*args, check=True):
+    """Roda git sem abrir janela e sem nunca parar esperando senha (o agendamento roda escondido)."""
+    import os
+    env = dict(os.environ, GIT_TERMINAL_PROMPT="0")
+    sem_janela = getattr(subprocess, "CREATE_NO_WINDOW", 0)
+    r = subprocess.run(["git", "-C", str(PASTA.parent), *args], env=env, creationflags=sem_janela,
+                       capture_output=True, text=True, encoding="utf-8", errors="replace", timeout=300)
+    if r.stdout.strip() or r.stderr.strip():
+        print((r.stdout + r.stderr).strip())
+    if check and r.returncode != 0:
+        raise RuntimeError(f"git {args[0]} falhou (código {r.returncode})")
+    return r.returncode
+
+
 def enviar_github(arquivos, data):
-    repo = PASTA.parent
-    rel = [str(a.relative_to(repo)) for a in arquivos]
-    subprocess.run(["git", "-C", str(repo), "add", "--", *rel], check=True)
-    if subprocess.run(["git", "-C", str(repo), "diff", "--cached", "--quiet"]).returncode == 0:
+    rel = [str(a.relative_to(PASTA.parent)) for a in arquivos]
+    git("add", "--", *rel)
+    if git("diff", "--cached", "--quiet", "--", *rel, check=False) == 0:
         print("Nada novo para enviar.")
         return
-    subprocess.run(["git", "-C", str(repo), "commit", "-m", f"relatório de demandas design: {data}", "--", *rel], check=True)
-    subprocess.run(["git", "-C", str(repo), "pull", "--rebase", "--autostash"], check=False)
-    subprocess.run(["git", "-C", str(repo), "push"], check=True)
+    git("commit", "-m", f"relatório de demandas design: {data}", "--", *rel)
+    git("pull", "--rebase", "--autostash", check=False)
+    git("push")
     print("Enviado para o GitHub.")
 
 
 def main():
+    if "--agendado" in sys.argv:
+        # Rodando escondido pelo Agendador do Windows: tudo vai para logs/execucao.log
+        (PASTA / "logs").mkdir(exist_ok=True)
+        log = open(PASTA / "logs" / "execucao.log", "a", encoding="utf-8", buffering=1)
+        sys.stdout = sys.stderr = log
+        print()
+        print(f"=== {datetime.now():%d/%m/%Y %H:%M} ===")
     token = ler_token()
     if "--descobrir" in sys.argv:
         return descobrir(token)
@@ -439,4 +460,9 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    try:
+        main()
+    except Exception:
+        import traceback
+        traceback.print_exc()
+        sys.exit(1)
