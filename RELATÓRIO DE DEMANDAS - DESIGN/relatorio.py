@@ -520,6 +520,8 @@ def main():
     tarefas = []
     for list_id in config["list_ids"]:
         for t in buscar_tarefas(list_id, token):
+            if t.get("parent"):
+                continue  # subtarefa: conta como parte da tarefa-mãe, não como demanda própria
             if re.match(r"\s*[CE]\s*\|", t["name"]):
                 continue  # posts da Tastto/Arttico
             cliente = identificar_cliente(t, clientes)
