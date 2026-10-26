@@ -1,10 +1,10 @@
 {
   "semana": "2026-10-12_a_2026-10-16",
-  "abertas": 4,
+  "abertas": 0,
   "finalizadas_semana": 6,
-  "em_analise_agora": 4,
+  "em_analise_agora": 0,
   "atrasadas": 0,
   "media_ciclo_min": 13925.943519444443,
   "media_analise_min": 5301.666666666667,
-  "media_idade_abertas_min": 3314.595375
+  "media_idade_abertas_min": null
 }
