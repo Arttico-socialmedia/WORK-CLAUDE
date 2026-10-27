@@ -1,0 +1,254 @@
+<title>Fechamento de Outubro</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap">
+<style>
+  :root{
+    /* Arttico — moldura institucional */
+    --arttico-navy:#010130;
+    --arttico-navy-2:#0d0d3d;
+    --line-dark:#2b2b5c;
+
+    /* Tastto — acento e sistema de status */
+    --tastto-deep:#1a1a2d;
+    --electric:#6c6cff;
+    --lavender:#b0afff;
+    --fog:#d6e1ea;
+    --orange:#f96a2b;
+
+    --paper:#f6f6fb;
+    --card:#ffffff;
+    --ink:#15152c;
+    --ink-2:#5c5c7a;
+    --ink-3:#9494ae;
+    --line:#e2e2f0;
+
+    --good:#2fbf71;
+    --good-bg:#e5f7ee;
+    --warn:#e0952a;
+    --warn-bg:#fbf0dd;
+
+    --serif:'Sora',-apple-system,'Segoe UI',sans-serif;
+    --sans:'IBM Plex Sans',-apple-system,'Segoe UI',sans-serif;
+    --mono:'IBM Plex Mono',ui-monospace,'SF Mono',monospace;
+  }
+
+  *,*::before,*::after{box-sizing:border-box}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:var(--sans);
+    font-size:16px;
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+  }
+  .deck{max-width:920px;margin:0 auto;padding:0 0 64px}
+
+  h1,h2,h3{font-family:var(--serif);font-weight:700;letter-spacing:-.01em;text-wrap:balance;margin:0}
+  p{margin:0}
+
+  .eyebrow{
+    font-family:var(--mono);font-size:11.5px;font-weight:600;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--electric);display:inline-flex;align-items:center;gap:9px;
+  }
+  .eyebrow.on-dark{color:var(--lavender)}
+
+  /* ---------- page chrome ---------- */
+  .page{padding:72px 56px}
+  .page.dark{background:var(--arttico-navy);color:#eceaf7}
+  .page.light{background:var(--paper)}
+  .page + .page.light{border-top:1px solid var(--line)}
+  .foot{
+    display:flex;justify-content:space-between;align-items:center;margin-top:48px;
+    font-family:var(--mono);font-size:11.5px;color:var(--ink-3);letter-spacing:.04em;
+  }
+  .page.dark .foot{color:#7a7ab0}
+
+  /* ---------- cover ---------- */
+  .cover{padding-top:96px;padding-bottom:96px}
+  .cover .eyebrow{margin-bottom:26px}
+  .cover .mark{display:inline-flex;align-items:center;gap:10px;margin-bottom:34px}
+  .cover .mark i{width:10px;height:10px;border-radius:3px;background:var(--electric)}
+  .cover h1{font-size:clamp(40px,6.4vw,58px);color:#fff;line-height:1.06}
+  .cover .meta{display:flex;gap:40px;margin-top:56px;padding-top:26px;border-top:1px solid var(--line-dark)}
+  .cover .meta .k{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#8383b8}
+  .cover .meta .v{font-weight:600;color:#fff;margin-top:6px;font-size:15px}
+
+  h2.title{font-size:29px;margin-bottom:34px}
+  .section-head{margin-bottom:34px}
+  .section-head .eyebrow{margin-bottom:14px}
+
+  .subhead{
+    font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.1em;
+    text-transform:uppercase;color:var(--ink-3);margin:0 0 14px;
+  }
+  .subhead:not(:first-child){margin-top:36px}
+
+  /* ---------- status cards ---------- */
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  .card{
+    background:var(--card);border:1px solid var(--line);border-radius:14px;padding:24px;
+    display:flex;flex-direction:column;gap:12px;
+  }
+  .card h3{font-size:16px}
+  .card p{color:var(--ink-2);font-size:14px;line-height:1.55}
+  .pill{
+    align-self:flex-start;display:inline-flex;align-items:center;gap:6px;
+    padding:4px 11px;border-radius:999px;font-family:var(--mono);
+    font-size:10.5px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;
+  }
+  .pill.good{background:var(--good-bg);color:var(--good)}
+  .pill.warn{background:var(--warn-bg);color:var(--warn)}
+  .pill.info{background:rgba(108,108,255,.12);color:var(--electric)}
+  .pill::before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor}
+
+  /* ---------- callout / quote ---------- */
+  .quote{
+    background:linear-gradient(155deg,rgba(108,108,255,.09),rgba(176,175,255,.06));
+    border:1px solid #d7d7fb;border-radius:14px;padding:24px 26px;
+  }
+  .quote .eyebrow{margin-bottom:10px}
+  .quote p{font-size:15px;line-height:1.65;color:var(--ink)}
+  .quote strong{color:var(--arttico-navy)}
+
+  /* ---------- rotinas ---------- */
+  .freq{
+    align-self:flex-start;font-family:var(--mono);font-size:10.5px;font-weight:600;
+    letter-spacing:.07em;text-transform:uppercase;color:var(--ink-2);
+    border:1px solid var(--line);padding:4px 11px;border-radius:999px;
+  }
+
+  /* ---------- desafios / encerramento ---------- */
+  .challenge{
+    display:grid;grid-template-columns:1fr auto;gap:18px;align-items:flex-start;
+    padding:22px 0;border-bottom:1px solid var(--line);
+  }
+  .challenge:first-of-type{border-top:1px solid var(--line)}
+  .challenge h3{font-size:16px;margin-bottom:6px}
+  .challenge p{color:var(--ink-2);font-size:14px}
+  .tag{
+    display:inline-flex;align-items:center;padding:5px 12px;border-radius:8px;
+    font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.06em;
+    border:1px solid var(--line);color:var(--ink-2);white-space:nowrap;margin-top:2px;
+  }
+  .tag.standby{color:var(--orange);border-color:#fbd3bd;background:#fdf0e9}
+  .tag.owner{color:var(--electric);border-color:#d7d7fb;background:#f0f0ff}
+
+  .steps{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:12px}
+  .steps li{
+    display:grid;grid-template-columns:1fr auto;gap:16px;align-items:center;
+    background:var(--arttico-navy-2);border:1px solid var(--line-dark);border-radius:12px;
+    padding:18px 20px;font-size:14.5px;color:#e4e3f5;
+  }
+  .steps .owner{
+    font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.08em;
+    color:var(--lavender);border:1px solid #3a3a72;padding:5px 12px;border-radius:999px;white-space:nowrap;
+  }
+
+  @media (max-width:640px){
+    .page{padding:52px 22px}
+    .grid2{grid-template-columns:1fr}
+  }
+</style>
+
+<div class="deck">
+
+  <!-- CAPA -->
+  <section class="page dark cover">
+    <span class="mark"><i></i><span class="eyebrow on-dark">Grupo Arttico · Marketing Interno</span></span>
+    <h1>Fechamento de Outubro</h1>
+    <div class="meta">
+      <div><div class="k">Data</div><div class="v">30 de outubro de 2026</div></div>
+    </div>
+    <div class="foot"><span>Uso interno · Grupo Arttico</span><span>01 / 04</span></div>
+  </section>
+
+  <!-- O QUE FOI FEITO -->
+  <section class="page light">
+    <div class="section-head">
+      <span class="eyebrow">O que foi feito</span>
+      <h2 class="title">As frentes de setembro foram concluídas</h2>
+    </div>
+
+    <p class="subhead">Finalizado</p>
+    <div class="grid2">
+      <div class="card">
+        <span class="pill good">Finalizado</span>
+        <h3>LP da Arttico</h3>
+        <p>Reestruturação concluída no Framer — pronta para ser apresentada.</p>
+      </div>
+      <div class="card">
+        <span class="pill good">Finalizado</span>
+        <h3>LP da Tastto</h3>
+        <p>Ajustes de alinhamento ao funil atual concluídos — pronta para ser apresentada.</p>
+      </div>
+      <div class="card">
+        <span class="pill good">Finalizado</span>
+        <h3>Identidade do Polaris Academy</h3>
+        <p>Identidade visual finalizada.</p>
+      </div>
+    </div>
+
+    <div class="foot"><span>Fechamento de Outubro</span><span>02 / 04</span></div>
+  </section>
+
+  <!-- NOVAS INICIATIVAS -->
+  <section class="page light">
+    <div class="section-head">
+      <span class="eyebrow">Novas iniciativas</span>
+      <h2 class="title">Rotinas de gestão e um novo projeto em planejamento</h2>
+    </div>
+
+    <p class="subhead">Rotinas de MKT estabelecidas</p>
+    <div class="grid2">
+      <div class="card">
+        <span class="freq">Semanal · Segunda</span>
+        <h3>Sprint</h3>
+        <p>Reunião operacional com toda a equipe de MKT.</p>
+      </div>
+      <div class="card">
+        <span class="freq">Semanal · Quarta</span>
+        <h3>Reunião de gestão</h3>
+        <p>Alinhamento entre Thiago e Ilze.</p>
+      </div>
+      <div class="card">
+        <span class="freq">Mensal</span>
+        <h3>Lapidação</h3>
+        <p>Revisão de estratégia com a equipe de MKT, uma vez por mês.</p>
+      </div>
+      <div class="card">
+        <span class="freq">Quinzenal</span>
+        <h3>Feedback</h3>
+        <p>Encontros individuais com Mila e Renato.</p>
+      </div>
+    </div>
+
+    <p class="subhead">Mapeamento de demandas</p>
+    <div class="quote">
+      <span class="eyebrow">Em produção</span>
+      <p>O relatório de mapeamento das demandas do Design já está sendo feito, com a fila projetada até dezembro.</p>
+    </div>
+
+    <p class="subhead">Novo projeto</p>
+    <div class="quote">
+      <span class="eyebrow">Iniciado</span>
+      <p><strong>Canal do YouTube</strong> — início do planejamento. Estratégia e formato ainda em definição.</p>
+    </div>
+
+    <div class="foot"><span>Fechamento de Outubro</span><span>03 / 04</span></div>
+  </section>
+
+  <!-- ENCERRAMENTO -->
+  <section class="page dark">
+    <div class="section-head">
+      <span class="eyebrow on-dark">Encerramento</span>
+      <h2 class="title" style="color:#fff">Encaminhamentos</h2>
+    </div>
+    <ul class="steps">
+      <li><span>Aprovar a assinatura do Figma e do Framer Pro.</span><span class="owner">Decisão</span></li>
+      <li><span>Definir o limite de alterações para cardápio e displays, entregáveis de overdelivery.</span><span class="owner">A definir</span></li>
+      <li><span>Avançar no planejamento do canal do YouTube — estratégia e formato.</span><span class="owner">MKT Interno</span></li>
+    </ul>
+    <div class="foot"><span>Fechamento de Outubro</span><span>04 / 04</span></div>
+  </section>
+
+</div>
