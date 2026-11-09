@@ -1,3 +1,8 @@
 # Vídeos ficam fora do git (pesados; originais no Drive)
 *.mp4
 *.mov
+# temporários da edição de vídeo
+TasttoVisita-*_mask.png
+TasttoVisita-*_cartao.png
+TasttoVisita-*_logo.png
+*_remendo.mkv
