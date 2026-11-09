@@ -149,12 +149,14 @@ function mesAnterior(date) {
 
 function parseWeekLabel(label) {
   // ex: "Semana 1 | (01.09 a 06.09 )" -> {start:{d:1,m:9}, end:{d:6,m:9}}
-  const m = label.match(/\((\d{2})\.(\d{2})\s*a\s*(\d{2})\.(\d{2})\s*\)/);
+  // tolerante a erros de digitacao comuns: parentese final faltando ("(01.11 a 07.11") e mes com 1 digito ("15.1 a 21.11")
+  const m = label.match(/\((\d{1,2})\.(\d{1,2})\s*a\s*(\d{1,2})\.(\d{1,2})/);
   if (!m) return null;
-  return {
-    start: { d: parseInt(m[1], 10), mo: parseInt(m[2], 10) },
-    end: { d: parseInt(m[3], 10), mo: parseInt(m[4], 10) },
-  };
+  const start = { d: parseInt(m[1], 10), mo: parseInt(m[2], 10) };
+  const end = { d: parseInt(m[3], 10), mo: parseInt(m[4], 10) };
+  // mes de inicio absurdo (ex.: "15.1" numa semana que termina em 21.11) -> assume o mes do fim
+  if (start.mo !== end.mo && start.mo !== end.mo - 1) start.mo = end.mo;
+  return { start, end };
 }
 
 async function processarMarca(nome, spreadsheetId, accountId, env, accessToken) {
