@@ -1,0 +1,3 @@
+# Vídeos ficam fora do git (pesados; originais no Drive)
+*.mp4
+*.mov
