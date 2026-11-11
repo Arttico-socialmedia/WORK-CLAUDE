@@ -19,9 +19,10 @@ html,body{width:1080px;height:1350px;overflow:hidden;background:var(--bg)}
 .photo{position:absolute;left:0;top:0;width:1080px;object-fit:cover}
 .shade-top{position:absolute;inset:0 0 auto 0;height:260px;background:linear-gradient(rgba(3,30,31,.55),rgba(3,30,31,0))}
 .shade-bot{position:absolute;left:0;right:0;background:linear-gradient(rgba(6,59,61,0),var(--bg) 92%)}
-.brand{position:absolute;left:64px;top:56px;display:flex;align-items:center;gap:18px}
-.brand img.sym{height:74px}.brand img.word{height:46px}
-.pill{position:absolute;right:64px;top:66px;background:var(--gold);color:#062e30;font-weight:700;font-size:21px;letter-spacing:.22em;padding:14px 26px 13px 30px;border-radius:40px}
+.logo-foot{position:absolute;left:0;right:0;bottom:50px;display:flex;justify-content:center;align-items:center;gap:16px}
+.logo-foot img.sym{height:62px}.logo-foot img.word{height:38px}
+.swipe{position:absolute;right:52px;bottom:50px;width:62px;height:62px;border-radius:50%;border:2px solid rgba(255,255,255,.35);background:rgba(255,255,255,.08);display:flex;align-items:center;justify-content:center}
+.pill{position:absolute;left:50%;transform:translateX(-50%);top:60px;background:var(--gold);color:#062e30;font-weight:700;font-size:21px;letter-spacing:.22em;padding:14px 26px 13px 30px;border-radius:40px}
 .eyebrow{font-weight:600;font-size:22px;letter-spacing:.28em;color:var(--gold);text-transform:uppercase;display:flex;align-items:center;gap:20px}
 .eyebrow:before{content:"";width:56px;height:2px;background:var(--gold)}
 h1{font-family:'Cormorant Garamond',serif;font-weight:600;color:#fff;line-height:1.02;letter-spacing:-.005em}
@@ -34,12 +35,13 @@ p.body{font-weight:300;font-size:30px;line-height:1.45;color:#E6DFCF}
 """
 
 def foot(n, swipe=True):
-    dots = "".join(f'<i class="{"on" if k==n else ""}"></i>' for k in range(1, TOTAL+1))
-    right = '<span>ARRASTE &nbsp;→</span>' if swipe else '<span></span>'
-    return f'<div class="foot"><span><b>{n:02d}</b> / {TOTAL:02d}</span><div class="dots">{dots}</div>{right}</div>'
+    logo = f'<div class="logo-foot"><img class="sym" src="{u(LOGO/"symbol_white.png")}"><img class="word" src="{u(LOGO/"word_white.png")}"></div>'
+    arrow = ('<div class="swipe"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.6)" '
+             'stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg></div>') if swipe else ''
+    return logo + arrow
 
 def brand():
-    return f'<div class="brand"><img class="sym" src="{u(LOGO/"symbol_white.png")}"><img class="word" src="{u(LOGO/"word_white.png")}"></div>'
+    return ''
 
 def page(inner):
     return f'<!doctype html><html><head><meta charset="utf-8"><style>{CSS}</style></head><body><div class="card">{inner}</div></body></html>'
@@ -81,7 +83,7 @@ def cta():
   <h1 style="font-size:64px">Sua <em>melhor versão</em> começa com um cuidado individualizado.</h1>
   <p class="body" style="font-size:27px;margin-top:22px;line-height:1.42">Durante nossa Black Friday, você encontra condições especiais para cuidar de si. <b style="font-weight:600;color:#fff">Agende sua avaliação facial gratuita</b> e descubra os tratamentos mais indicados para você.</p>
 </div>
-<div style="position:absolute;left:0;right:0;top:1110px;display:flex;justify-content:center">
+<div style="position:absolute;left:0;right:0;top:1084px;display:flex;justify-content:center">
   <div style="display:flex;align-items:center;gap:18px;background:var(--gold);color:#062e30;border-radius:60px;padding:20px 46px 20px 34px;box-shadow:0 10px 30px rgba(0,0,0,.25)">
     {WA}<div style="text-align:left"><div style="font-size:17px;font-weight:600;letter-spacing:.2em">AGENDE PELO WHATSAPP</div><div style="font-size:40px;font-weight:700;letter-spacing:.02em;line-height:1.1">(84) 8856-5510</div></div>
   </div>
