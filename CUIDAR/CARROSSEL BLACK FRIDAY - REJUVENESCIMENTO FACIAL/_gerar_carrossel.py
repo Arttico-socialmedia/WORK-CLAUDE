@@ -55,7 +55,7 @@ def cover():
 <div class="text" style="top:842px">
   <div class="eyebrow">Semana especial</div>
   <h1 style="font-size:96px;margin:26px 0 26px">Sua beleza merece um cuidado <em>especial.</em></h1>
-  <p class="body" style="font-size:29px;max-width:900px">Conheça os tratamentos da nossa <b style="font-weight:600;color:#fff">Semana Especial de Rejuvenescimento Facial Natural.</b></p>
+  <p class="body" style="font-size:29px;max-width:900px">Conheça os tratamentos especiais da nossa <b style="font-weight:600;color:#fff">Black Friday.</b></p>
 </div>
 {foot(1)}""")
 
