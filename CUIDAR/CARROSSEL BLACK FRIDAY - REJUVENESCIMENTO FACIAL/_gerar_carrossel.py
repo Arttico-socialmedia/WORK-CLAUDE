@@ -43,8 +43,27 @@ def foot(n, swipe=True):
 def brand():
     return ''
 
+POP_CSS = """
+.pop{position:absolute;background:rgba(251,248,241,.97);border-radius:28px;padding:24px 28px 30px;box-shadow:0 22px 50px rgba(0,0,0,.38),0 2px 6px rgba(0,0,0,.15);color:#173c3d;font-family:Montserrat,sans-serif}
+.pop .hd{display:flex;align-items:center;gap:14px;margin-bottom:14px}
+.pop .av{width:48px;height:48px;border-radius:50%;background:var(--teal);color:var(--gold2);display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-weight:600;font-size:28px;flex:none}
+.pop .nm{font-weight:700;font-size:20px;line-height:1.1}
+.pop .sb{font-size:15px;color:#7d8a86;font-weight:500;margin-top:3px;letter-spacing:.02em}
+.pop .q{position:absolute;right:24px;top:6px;font-family:'Cormorant Garamond',serif;font-size:96px;line-height:1;color:var(--gold);opacity:.85}
+.pop p{font-size:21px;line-height:1.42;font-weight:400}
+.pop .heart{position:absolute;left:26px;bottom:-22px;background:#fff;border-radius:22px;padding:7px 12px 4px;box-shadow:0 4px 12px rgba(0,0,0,.18)}
+"""
+HEART = '<svg width="24" height="22" viewBox="0 0 24 22"><path fill="#E0263A" d="M12 21.4 10.3 19.8C4.2 14.3 0 10.6 0 6.1 0 2.6 2.7 0 6.2 0c2 0 3.9.9 5.8 2.6C13.9.9 15.8 0 17.8 0 21.3 0 24 2.6 24 6.1c0 4.5-4.2 8.2-10.3 13.7z"/></svg>'
+
+def popup(p):
+    if not p: return ''
+    return (f'<div class="pop" style="left:{p["x"]}px;top:{p["y"]}px;width:{p["w"]}px">'
+            f'<div class="q">&ldquo;</div><div class="hd"><div class="av">{p["name"][0]}</div>'
+            f'<div><div class="nm">{p["name"]}</div><div class="sb">{p.get("sub","Cliente Cuidar")}</div></div></div>'
+            f'<p>{p["text"]}</p><div class="heart">{HEART}</div></div>')
+
 def page(inner):
-    return f'<!doctype html><html><head><meta charset="utf-8"><style>{CSS}</style></head><body><div class="card">{inner}</div></body></html>'
+    return f'<!doctype html><html><head><meta charset="utf-8"><style>{CSS}{POP_CSS}</style></head><body><div class="card">{inner}</div></body></html>'
 
 def cover():
     return page(f"""
@@ -59,12 +78,12 @@ def cover():
 </div>
 {foot(1)}""")
 
-def content(n, img, pos, eyebrow, title, body, size=74):
+def content(n, img, pos, eyebrow, title, body, size=74, pop=None):
     return page(f"""
 <img class="photo" src="{u(IMG/img)}" style="height:900px;object-position:50% {pos}%">
 <div class="shade-top"></div>
 <div class="shade-bot" style="top:620px;height:290px"></div>
-{brand()}<div class="pill">BLACK FRIDAY</div>
+{brand()}<div class="pill">BLACK FRIDAY</div>{popup(pop)}
 <div class="text" style="top:880px">
   <div class="eyebrow">{eyebrow}</div>
   <h1 style="font-size:{size}px;margin:22px 0 22px">{title}</h1>
@@ -93,15 +112,23 @@ def cta():
 cards = [
     cover(),
     content(2, "8.jpg", 46, "Lábios", "Lábios mais hidratados, definidos e <em>naturais.</em>",
-            "Cuidados que valorizam a beleza dos lábios, respeitando suas características e proporções."),
+            "Cuidados que valorizam a beleza dos lábios, respeitando suas características e proporções.",
+            pop=dict(name="Carolina", x=590, y=150, w=450,
+                     text="Amo passar um batom e um gloss e ficar com uma boca bem projetada e 100% natural. Ninguém diz que foi preenchimento!")),
     content(3, "11.jpg", 30, "Olhar", "Um olhar mais leve e <em>descansado.</em>",
             "Tratamentos pensados para suavizar sinais de cansaço e valorizar a expressão do olhar."),
     content(4, "10.jpg", 40, "Contorno facial", "Mais <em>harmonia</em> para os traços do seu rosto.",
-            "Procedimentos que ajudam a valorizar os contornos faciais, respeitando a individualidade de cada pessoa."),
+            "Procedimentos que ajudam a valorizar os contornos faciais, respeitando a individualidade de cada pessoa.",
+            pop=dict(name="Janaria", x=40, y=500, w=440,
+                     text="O resultado da minha harmonização me surpreendeu muito! Obrigada pelo carinho, cuidado e atenção impecável.")),
     content(5, "22.jpg", 52, "Qualidade da pele", "Sua pele também merece <em>atenção.</em>",
-            "Cuidados voltados à hidratação, firmeza e melhora da qualidade da pele."),
+            "Cuidados voltados à hidratação, firmeza e melhora da qualidade da pele.",
+            pop=dict(name="Jandivania", x=600, y=140, w=440,
+                     text="Ficou maravilhosa! O resultado foi muito melhor do que eu esperava. Inchou quase nada e está ótima.")),
     content(6, "9.jpg", 45, "Linhas de expressão", "Suavize as marcas sem perder sua <em>essência.</em>",
-            "Tratamentos que buscam amenizar linhas de expressão, preservando a naturalidade do rosto."),
+            "Tratamentos que buscam amenizar linhas de expressão, preservando a naturalidade do rosto.",
+            pop=dict(name="Darcyane", x=640, y=150, w=400,
+                     text="Amo seu atendimento! Com você, me sinto verdadeiramente cuidada, e isso faz toda a diferença!")),
     cta(),
 ]
 
