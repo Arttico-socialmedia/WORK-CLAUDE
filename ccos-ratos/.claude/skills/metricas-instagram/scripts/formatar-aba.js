@@ -126,9 +126,18 @@ async function main() {
   const topoTexto = topo.flat().join("").trim();
   const handle = ((sh.charts || []).map((c) => c.spec.title || "").join(" ").match(/@[\w.]+/) || [`@${marca}`])[0];
   const mesIndex = MESES.findIndex((m) => tab.startsWith(m));
-  const anoMatch = tab.match(/(\d{2})\s*$/);
-  const tituloEsperado = `Métricas Instagram  ·  ${handle}  ·  ${mesIndex >= 0 ? MESES[mesIndex] : tab}${anoMatch ? " 20" + anoMatch[1] : ""}`;
-  if (topoTexto && !topoTexto.startsWith("Métricas Instagram")) throw new Error(`Linhas 1-2 de "${tab}" nao estao vazias (${topoTexto.slice(0, 60)}...). Abortando para nao sobrescrever.`);
+  // ano: do cabecalho "Contas alcançadas / 2025" (abas antigas nao tem ano no nome); senao do sufixo "26"
+  const anoCab = (alc[0][0].match(/(20\d{2})/) || [])[1];
+  const anoSuf = (tab.match(/(\d{2})\s*$/) || [])[1];
+  const ano = anoCab || (anoSuf ? "20" + anoSuf : "");
+  // anos do grafico anual: serie 2 (coluna E) e o ano da aba; serie 1 (coluna B) e o ano anterior
+  const anoAtual = ano || "";
+  const anoAnt = ano ? String(Number(ano) - 1) : "";
+  const tituloEsperado =`Métricas Instagram  ·  ${handle}  ·  ${mesIndex >= 0 ? MESES[mesIndex] : tab}${ano ? " " + ano : ""}`;
+  // linhas 1-2 precisam estar vazias; aceita sobrescrever so lixo obvio (espacos ou um numero solto, ex. 6666666666666)
+  const lixo = /^[\d.,\s]*$/.test(topoTexto);
+  if (topoTexto && !topoTexto.startsWith("Métricas Instagram") && !lixo) throw new Error(`Linhas 1-2 de "${tab}" nao estao vazias (${topoTexto.slice(0, 60)}...). Abortando para nao sobrescrever.`);
+  if (topoTexto && lixo) console.log(`Aviso: "${tab}" tinha "${topoTexto.trim() || "(espaços)"}" na linha 1, substituído pelo título.`);
   if (!(alc[0] && /Contas alcan/.test(alc[0][0])) || !(sem[0] && /Contas alcan/.test(sem[0][0]))) throw new Error(`"${tab}" nao segue o modelo (J20/J35). Abortando.`);
 
   const R = [];
@@ -177,6 +186,10 @@ async function main() {
   for (const a1 of cabecalhos) {
     R.push({ updateBorders: { range: gr(sid, a1), innerVertical: borda(C.branco) } });
   }
+  // colunas espacadoras: tira tracos antigos soltos (so bordas internas, para nao apagar a borda das tabelas vizinhas)
+  for (const a1 of ["C20:C41", "F20:F41", "I20:I41", "Q20:Q41"]) {
+    R.push({ updateBorders: { range: gr(sid, a1), innerHorizontal: { style: "NONE" } } });
+  }
   for (const a1 of tabelas) {
     const b = borda(C.cinzaAzul);
     R.push({ updateBorders: { range: gr(sid, a1), top: b, bottom: b, left: b, right: b } });
@@ -224,7 +237,7 @@ async function main() {
     const t = (ch.spec.title || "") + " " + ({ 1: "Seguidores Anual", 4: "Seguidores Anual", 7: "Seguidores Mensal", 11: "Contas alcan" }[col0] || "");
     let spec = null;
     if (/Seguidores Anual/i.test(t)) {
-      spec = { ...base(`Seguidores Anual | ${handle}`, `Novos seguidores por mês  ·  ${marca === "arttico" ? "cinza" : "lilás"} 2025  ·  azul-marinho 2026`), basicChart: {
+      spec = { ...base(`Seguidores Anual | ${handle}`, `Novos seguidores por mês  ·  ${marca === "arttico" ? "cinza" : "lilás"} ${anoAnt}  ·  azul-marinho ${anoAtual}`), basicChart: {
         chartType: "LINE", legendPosition: "NO_LEGEND", axis: eixos, headerCount: 0,
         domains: [{ domain: { sourceRange: { sources: [src("D21:D32")] } } }],
         series: [
