@@ -48,9 +48,19 @@ const PALETAS = {
     textoSuave: "#5C5C75",
   },
 };
+// papeis visuais por marca (o que torna Arttico e Tastto diferentes alem da cor)
+const ESTILO = {
+  // Arttico: sobria, tudo no navy; Raleway/Lato
+  arttico: (C) => ({ faixa: C.navy, fio: C.azul, secao: C.navy, cabecalho: C.cinzaAzul, cabecalhoTexto: C.navy, aba: C.navy,
+    serieAtual: C.navy, serieAnt: C.lilas, serieSeg: C.navy, serieAlc: C.azul, fonteTitulo: "Raleway", fonte: "Lato" }),
+  // Tastto: azul eletrico como protagonista, fio laranja, cabecalhos lavanda, tipografia mono (tech); IBM Plex
+  tastto: (C) => ({ faixa: C.azul, fio: C.laranja, secao: C.azul, cabecalho: C.lilas, cabecalhoTexto: C.navy, aba: C.azul,
+    serieAtual: C.azul, serieAnt: C.lilas, serieSeg: C.azul, serieAlc: C.navy, fonteTitulo: "IBM Plex Mono", fonte: "IBM Plex Sans" }),
+};
 let C = PALETAS.arttico;
-const FONTE_TITULO = "Raleway";
-const FONTE = "Lato";
+let E = ESTILO.arttico(C);
+let FONTE_TITULO = "Raleway";
+let FONTE = "Lato";
 
 function rgb(hex) {
   const h = hex.replace("#", "");
@@ -111,6 +121,9 @@ async function main() {
   }
   const ID = PLANILHAS[marca];
   C = PALETAS[marca];
+  E = ESTILO[marca](C);
+  FONTE_TITULO = E.fonteTitulo;
+  FONTE = E.fonte;
   const env = loadEnv();
   const token = await googleToken(env);
   const H = { Authorization: `Bearer ${token}` };
@@ -148,7 +161,7 @@ async function main() {
   for (const b of sh.bandedRanges || []) R.push({ deleteBanding: { bandedRangeId: b.bandedRangeId } });
   for (let i = (sh.conditionalFormats || []).length - 1; i >= 0; i--) R.push({ deleteConditionalFormatRule: { sheetId: sid, index: i } });
 
-  R.push({ updateSheetProperties: { properties: { sheetId: sid, tabColorStyle: cs(C.navy), gridProperties: { hideGridlines: true } }, fields: "tabColorStyle,gridProperties.hideGridlines" } });
+  R.push({ updateSheetProperties: { properties: { sheetId: sid, tabColorStyle: cs(E.aba), gridProperties: { hideGridlines: true } }, fields: "tabColorStyle,gridProperties.hideGridlines" } });
 
   // base: fonte e cor de texto em toda a area usada
   R.push(fmt(sid, "A1:Z60", { textFormat: { fontFamily: FONTE, foregroundColorStyle: cs(C.texto) }, verticalAlignment: "MIDDLE" }, "userEnteredFormat.textFormat.fontFamily,userEnteredFormat.textFormat.foregroundColorStyle,userEnteredFormat.verticalAlignment"));
@@ -158,8 +171,8 @@ async function main() {
     R.push({ mergeCells: { range: gr(sid, "A1:Z1"), mergeType: "MERGE_ALL" } });
   }
   R.push({ updateCells: { range: gr(sid, "A1"), rows: [{ values: [{ userEnteredValue: { stringValue: tituloEsperado } }] }], fields: "userEnteredValue" } });
-  R.push(fmt(sid, "A1:Z1", { backgroundColorStyle: cs(C.navy), horizontalAlignment: "LEFT", verticalAlignment: "MIDDLE", padding: { left: 16 }, textFormat: { fontFamily: FONTE_TITULO, fontSize: 18, bold: true, foregroundColorStyle: cs(C.branco) } }, "userEnteredFormat(backgroundColorStyle,horizontalAlignment,verticalAlignment,padding,textFormat)"));
-  R.push(fmt(sid, "A2:Z2", { backgroundColorStyle: cs(C.azul) }, "userEnteredFormat.backgroundColorStyle"));
+  R.push(fmt(sid, "A1:Z1", { backgroundColorStyle: cs(E.faixa), horizontalAlignment: "LEFT", verticalAlignment: "MIDDLE", padding: { left: 16 }, textFormat: { fontFamily: FONTE_TITULO, fontSize: 18, bold: true, foregroundColorStyle: cs(C.branco) } }, "userEnteredFormat(backgroundColorStyle,horizontalAlignment,verticalAlignment,padding,textFormat)"));
+  R.push(fmt(sid, "A2:Z2", { backgroundColorStyle: cs(E.fio) }, "userEnteredFormat.backgroundColorStyle"));
   R.push(rowsHeight(sid, 1, 1, 56));
   R.push(rowsHeight(sid, 2, 2, 4));
   R.push(rowsHeight(sid, 3, 19, 21));
@@ -172,10 +185,10 @@ async function main() {
   const rotulos = ["A21:A32", "D21:D32", "G21:G25", "J22:J33", "R22:R33", "J37:J41", "R37:R41"];
 
   for (const a1 of secoes) {
-    R.push(fmt(sid, a1, { backgroundColorStyle: cs(C.navy), horizontalAlignment: "CENTER", verticalAlignment: "MIDDLE", wrapStrategy: "CLIP", textFormat: { fontFamily: FONTE_TITULO, fontSize: 11, bold: true, foregroundColorStyle: cs(C.branco) } }, "userEnteredFormat(backgroundColorStyle,horizontalAlignment,verticalAlignment,wrapStrategy,textFormat)"));
+    R.push(fmt(sid, a1, { backgroundColorStyle: cs(E.secao), horizontalAlignment: "CENTER", verticalAlignment: "MIDDLE", wrapStrategy: "CLIP", textFormat: { fontFamily: FONTE_TITULO, fontSize: 11, bold: true, foregroundColorStyle: cs(C.branco) } }, "userEnteredFormat(backgroundColorStyle,horizontalAlignment,verticalAlignment,wrapStrategy,textFormat)"));
   }
   for (const a1 of cabecalhos) {
-    R.push(fmt(sid, a1, { backgroundColorStyle: cs(C.cinzaAzul), horizontalAlignment: "CENTER", verticalAlignment: "MIDDLE", wrapStrategy: "WRAP", textFormat: { fontFamily: FONTE, fontSize: 9, bold: true, foregroundColorStyle: cs(C.navy) } }, "userEnteredFormat(backgroundColorStyle,horizontalAlignment,verticalAlignment,wrapStrategy,textFormat)"));
+    R.push(fmt(sid, a1, { backgroundColorStyle: cs(E.cabecalho), horizontalAlignment: "CENTER", verticalAlignment: "MIDDLE", wrapStrategy: "WRAP", textFormat: { fontFamily: FONTE, fontSize: 9, bold: true, foregroundColorStyle: cs(E.cabecalhoTexto) } }, "userEnteredFormat(backgroundColorStyle,horizontalAlignment,verticalAlignment,wrapStrategy,textFormat)"));
   }
   for (const a1 of corpos) {
     R.push(fmt(sid, a1, { horizontalAlignment: "CENTER", textFormat: { fontFamily: FONTE, fontSize: 10, bold: false, foregroundColorStyle: cs(C.texto) } }, "userEnteredFormat(horizontalAlignment,textFormat)"));
@@ -239,25 +252,25 @@ async function main() {
     const t = (ch.spec.title || "") + " " + ({ 1: "Seguidores Anual", 4: "Seguidores Anual", 7: "Seguidores Mensal", 11: "Contas alcan" }[col0] || "");
     let spec = null;
     if (/Seguidores Anual/i.test(t)) {
-      spec = { ...base(`Seguidores Anual | ${handle}`, `Novos seguidores por mês  ·  ${marca === "arttico" ? `cinza ${anoAnt}  ·  azul-marinho ${anoAtual}` : `lavanda ${anoAnt}  ·  azul profundo ${anoAtual}`}`), basicChart: {
+      spec = { ...base(`Seguidores Anual | ${handle}`, `Novos seguidores por mês  ·  ${marca === "arttico" ? `cinza ${anoAnt}  ·  azul-marinho ${anoAtual}` : `lavanda ${anoAnt}  ·  azul elétrico ${anoAtual}`}`), basicChart: {
         chartType: "LINE", legendPosition: "NO_LEGEND", axis: eixos, headerCount: 0,
         domains: [{ domain: { sourceRange: { sources: [src("D21:D32")] } } }],
         series: [
-          { series: { sourceRange: { sources: [src("B21:B32")] } }, targetAxis: "LEFT_AXIS", colorStyle: cs(C.lilas), lineStyle: { width: 3, type: "SOLID" }, pointStyle: { size: 5 } },
-          { series: { sourceRange: { sources: [src("E21:E32")] } }, targetAxis: "LEFT_AXIS", colorStyle: cs(C.navy), lineStyle: { width: 3, type: "SOLID" }, pointStyle: { size: 6 }, dataLabel: { ...label(src("E21:E32")), placement: "ABOVE" } },
+          { series: { sourceRange: { sources: [src("B21:B32")] } }, targetAxis: "LEFT_AXIS", colorStyle: cs(E.serieAnt), lineStyle: { width: 3, type: "SOLID" }, pointStyle: { size: 5 } },
+          { series: { sourceRange: { sources: [src("E21:E32")] } }, targetAxis: "LEFT_AXIS", colorStyle: cs(E.serieAtual), lineStyle: { width: 3, type: "SOLID" }, pointStyle: { size: 6 }, dataLabel: { ...label(src("E21:E32")), placement: "ABOVE" } },
         ],
       } };
     } else if (/Seguidores Mensal/i.test(t)) {
       spec = { ...base(`Seguidores por semana | ${handle}`, "Saldo de seguidores (ganhos − perdas)"), basicChart: {
         chartType: "COLUMN", legendPosition: "NO_LEGEND", axis: eixos, headerCount: 0,
         domains: [{ domain: { sourceRange: { sources: [src("J37:J41")] } } }],
-        series: [{ series: { sourceRange: { sources: [src("H21:H25")] } }, targetAxis: "LEFT_AXIS", colorStyle: cs(C.navy), dataLabel: { ...label(src("H21:H25")), placement: "OUTSIDE_END" } }],
+        series: [{ series: { sourceRange: { sources: [src("H21:H25")] } }, targetAxis: "LEFT_AXIS", colorStyle: cs(E.serieSeg), dataLabel: { ...label(src("H21:H25")), placement: "OUTSIDE_END" } }],
       } };
     } else if (/Contas alcan/i.test(t)) {
       spec = { ...base(`Contas alcançadas por semana | ${handle}`, "Alcance orgânico"), basicChart: {
         chartType: "COLUMN", legendPosition: "NO_LEGEND", axis: eixos, headerCount: 0,
         domains: [{ domain: { sourceRange: { sources: [src("J37:J41")] } } }],
-        series: [{ series: { sourceRange: { sources: [src("L37:L41")] } }, targetAxis: "LEFT_AXIS", colorStyle: cs(C.azul), dataLabel: { ...label(src("L37:L41")), placement: "OUTSIDE_END" } }],
+        series: [{ series: { sourceRange: { sources: [src("L37:L41")] } }, targetAxis: "LEFT_AXIS", colorStyle: cs(E.serieAlc), dataLabel: { ...label(src("L37:L41")), placement: "OUTSIDE_END" } }],
       } };
     }
     if (spec) R.push({ updateChartSpec: { chartId: ch.chartId, spec } });
