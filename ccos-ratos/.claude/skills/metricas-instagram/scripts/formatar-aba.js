@@ -32,18 +32,20 @@ const PALETAS = {
     texto: "#010130",
     textoSuave: "#5A5A78",
   },
+  // Tastto (BRAND - TASTTO/design-guide.md): azul profundo #1A1A2D, azul eletrico #6C6CFF,
+  // lavanda tech #B0AFFF, cinza azulado #D6E1EA, laranja vibrante #F96A2B (alertas)
   tastto: {
-    navy: "#010130",
+    navy: "#1A1A2D",       // azul profundo: faixa de titulo, titulos de tabela, textos, grafico de seguidores
     branco: "#FFFFFF",
-    lilas: "#B0AFFF",
-    lilasClaro: "#ECECFF",
-    azul: "#6C6CFF",
-    cinzaAzul: "#D6E1EA",
-    zebra: "#F5F6FA",
-    linha: "#E3E6EF",
-    laranja: "#F96A2B",
-    texto: "#1F1F3D",
-    textoSuave: "#5B5B7A",
+    lilas: "#B0AFFF",      // lavanda tech: gradiente, linha do ano anterior
+    lilasClaro: "#EEEEFF", // tom claro da lavanda: linha do mes em destaque
+    azul: "#6C6CFF",       // azul eletrico: fio do titulo, grafico de alcance
+    cinzaAzul: "#D6E1EA",  // cinza azulado: cabecalhos de coluna e bordas externas
+    zebra: "#F3F6F9",      // tom claro do cinza azulado
+    linha: "#E2E9EF",
+    laranja: "#F96A2B",    // laranja vibrante: saldo negativo
+    texto: "#1A1A2D",
+    textoSuave: "#5C5C75",
   },
 };
 let C = PALETAS.arttico;
@@ -237,7 +239,7 @@ async function main() {
     const t = (ch.spec.title || "") + " " + ({ 1: "Seguidores Anual", 4: "Seguidores Anual", 7: "Seguidores Mensal", 11: "Contas alcan" }[col0] || "");
     let spec = null;
     if (/Seguidores Anual/i.test(t)) {
-      spec = { ...base(`Seguidores Anual | ${handle}`, `Novos seguidores por mês  ·  ${marca === "arttico" ? "cinza" : "lilás"} ${anoAnt}  ·  azul-marinho ${anoAtual}`), basicChart: {
+      spec = { ...base(`Seguidores Anual | ${handle}`, `Novos seguidores por mês  ·  ${marca === "arttico" ? `cinza ${anoAnt}  ·  azul-marinho ${anoAtual}` : `lavanda ${anoAnt}  ·  azul profundo ${anoAtual}`}`), basicChart: {
         chartType: "LINE", legendPosition: "NO_LEGEND", axis: eixos, headerCount: 0,
         domains: [{ domain: { sourceRange: { sources: [src("D21:D32")] } } }],
         series: [
