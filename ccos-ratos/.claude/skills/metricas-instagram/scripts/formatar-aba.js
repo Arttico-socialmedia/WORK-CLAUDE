@@ -15,20 +15,38 @@ const PLANILHAS = {
 };
 const MESES = ["Janeiro","Fevereiro","Março","Abril","Maio","Junho","Julho","Agosto","Setembro","Outubro","Novembro","Dezembro"];
 
-// Paleta dos dashboards: Arttico navy + branco para o geral, paleta Tastto para destaques
-const C = {
-  navy: "#010130",
-  branco: "#FFFFFF",
-  lilas: "#B0AFFF",
-  lilasClaro: "#ECECFF",
-  azul: "#6C6CFF",
-  cinzaAzul: "#D6E1EA",
-  zebra: "#F5F6FA",
-  linha: "#E3E6EF",
-  laranja: "#F96A2B",
-  texto: "#1F1F3D",
-  textoSuave: "#5B5B7A",
+// Paletas por marca. Os nomes das chaves sao papeis (nao cores literais).
+// Arttico: so o navy #010130, o secundario #1B1446 (C100 M99 Y40 K40) e tons claros do proprio navy + branco.
+// Tastto: paleta Tastto (#6C6CFF, #B0AFFF, #D6E1EA, #F96A2B).
+const PALETAS = {
+  arttico: {
+    navy: "#010130",
+    branco: "#FFFFFF",
+    lilas: "#9C9CB8",      // destaque medio (gradiente, linha 2025)
+    lilasClaro: "#E6E6EF", // linha do mes em destaque
+    azul: "#1B1446",       // secundario (fio do titulo, grafico de alcance)
+    cinzaAzul: "#D9D9E4",  // cabecalhos de coluna e bordas externas
+    zebra: "#F6F6F9",
+    linha: "#E6E6EC",
+    laranja: "#C0392B",    // saldo negativo (unica cor fora da marca, so sinalizacao)
+    texto: "#010130",
+    textoSuave: "#5A5A78",
+  },
+  tastto: {
+    navy: "#010130",
+    branco: "#FFFFFF",
+    lilas: "#B0AFFF",
+    lilasClaro: "#ECECFF",
+    azul: "#6C6CFF",
+    cinzaAzul: "#D6E1EA",
+    zebra: "#F5F6FA",
+    linha: "#E3E6EF",
+    laranja: "#F96A2B",
+    texto: "#1F1F3D",
+    textoSuave: "#5B5B7A",
+  },
 };
+let C = PALETAS.arttico;
 const FONTE_TITULO = "Raleway";
 const FONTE = "Lato";
 
@@ -90,6 +108,7 @@ async function main() {
     process.exit(1);
   }
   const ID = PLANILHAS[marca];
+  C = PALETAS[marca];
   const env = loadEnv();
   const token = await googleToken(env);
   const H = { Authorization: `Bearer ${token}` };
@@ -205,7 +224,7 @@ async function main() {
     const t = (ch.spec.title || "") + " " + ({ 1: "Seguidores Anual", 4: "Seguidores Anual", 7: "Seguidores Mensal", 11: "Contas alcan" }[col0] || "");
     let spec = null;
     if (/Seguidores Anual/i.test(t)) {
-      spec = { ...base(`Seguidores Anual | ${handle}`, "Novos seguidores por mês  ·  lilás 2025  ·  azul-marinho 2026"), basicChart: {
+      spec = { ...base(`Seguidores Anual | ${handle}`, `Novos seguidores por mês  ·  ${marca === "arttico" ? "cinza" : "lilás"} 2025  ·  azul-marinho 2026`), basicChart: {
         chartType: "LINE", legendPosition: "NO_LEGEND", axis: eixos, headerCount: 0,
         domains: [{ domain: { sourceRange: { sources: [src("D21:D32")] } } }],
         series: [
