@@ -1,0 +1,934 @@
+<title>Sprint MKT & Design</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&display=swap">
+<style>
+/* Layout: faixa de cabeçalho com período, resumo, cards de gráficos/tabelas e o painel de decisões do sprint. */
+/* Base (informações gerais): Arttico — azul-marinho #010130 e branco. Destaques: Tastto — azul elétrico, lavanda, cinza azulado, laranja (exceção pedida para este painel). */
+:root {
+  --bg: #F2F4F8; --panel: #FFFFFF; --fg: #010130; --muted: #4E5275; --line: #D6E1EA; --chip: #EAEEF5;
+  --brand: #010130; --brand-fg: #FFFFFF; --brand-muted: #B0AFFF; --brand-soft: #D6E1EA;
+  --mkt: #6C6CFF; --design: #F96A2B;
+  --ok: #4343D6; --ok-bg: #E7E7FF; --warn: #B23E0A; --warn-bg: #FFE8DC; --hot: #F96A2B; --hot-fg: #010130;
+  --delta-good: #4343D6; --delta-bad: #C2410C;
+  --st-ideias: #D6E1EA; --st-afazer: #B0AFFF; --st-fazendo: #6C6CFF; --st-analise: #F96A2B;
+  --font: 'DM Sans', 'Segoe UI', Arial, sans-serif;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #010130; --panel: #1A1A2D; --fg: #FFFFFF; --muted: #B4B8D8; --line: #2C2C4A; --chip: #26264A;
+  --brand: #1A1A2D; --brand-fg: #FFFFFF; --brand-muted: #B0AFFF; --brand-soft: #D6E1EA;
+  --mkt: #8A8AFF; --design: #FF7F45;
+  --ok: #B0AFFF; --ok-bg: #2A2A5C; --warn: #FF9A6B; --warn-bg: #3D2218; --hot: #F96A2B; --hot-fg: #010130;
+  --delta-good: #B0AFFF; --delta-bad: #FF9A6B;
+  --st-ideias: #3A4562; --st-afazer: #8584D6; --st-fazendo: #6C6CFF; --st-analise: #F96A2B;
+  color-scheme: dark; } }
+:root[data-theme="dark"] {
+  --bg: #010130; --panel: #1A1A2D; --fg: #FFFFFF; --muted: #B4B8D8; --line: #2C2C4A; --chip: #26264A;
+  --brand: #1A1A2D; --brand-fg: #FFFFFF; --brand-muted: #B0AFFF; --brand-soft: #D6E1EA;
+  --mkt: #8A8AFF; --design: #FF7F45;
+  --ok: #B0AFFF; --ok-bg: #2A2A5C; --warn: #FF9A6B; --warn-bg: #3D2218; --hot: #F96A2B; --hot-fg: #010130;
+  --delta-good: #B0AFFF; --delta-bad: #FF9A6B;
+  --st-ideias: #3A4562; --st-afazer: #8584D6; --st-fazendo: #6C6CFF; --st-analise: #F96A2B;
+  color-scheme: dark; }
+body { background: var(--bg); color: var(--fg); font-family: var(--font); font-size: 15px; line-height: 1.45; }
+.wrap { max-width: 1240px; margin-inline: auto; padding: 28px 20px 56px; display: flex; flex-direction: column; gap: 20px; }
+h1, h2, h3 { margin: 0; text-wrap: balance; }
+p { margin: 0; }
+a { color: inherit; text-decoration-color: var(--line); text-underline-offset: 3px; }
+a:hover { text-decoration-color: currentColor; }
+.muted { color: var(--muted); }
+.small { font-size: 13px; }
+.num { font-variant-numeric: tabular-nums; }
+.eyebrow { font-size: 12px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); font-weight: 700; }
+
+.top { display: flex; flex-wrap: wrap; gap: 16px 32px; justify-content: space-between; align-items: flex-end; background: var(--brand); color: var(--brand-fg); border-radius: 16px; padding: 22px 24px; }
+.top h1 { font-size: 32px; font-weight: 700; letter-spacing: -.01em; margin-top: 4px; }
+.top .eyebrow { color: var(--brand-muted); }
+.takeaway { margin-top: 6px; color: var(--brand-soft); max-width: 70ch; }
+.top .weeknav { background: rgba(255, 255, 255, .06); border-color: rgba(255, 255, 255, .2); }
+.top .weeknav button { color: var(--brand-fg); }
+.top .weeknav button:not(:disabled):hover { background: rgba(255, 255, 255, .12); }
+.top .btn { background: transparent; color: var(--brand-fg); border-color: rgba(255, 255, 255, .3); }
+.top .btn:hover { background: rgba(255, 255, 255, .12); }
+.top #updated { color: var(--brand-soft); }
+.pick { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--brand-soft); }
+.pick input { font: inherit; font-size: 14px; color: var(--brand-fg); background: rgba(255, 255, 255, .06); border: 1px solid rgba(255, 255, 255, .2); border-radius: 10px; padding: 7px 8px; color-scheme: dark; }
+.range { gap: 6px; padding-inline: 2px; flex-wrap: wrap; }
+.preset { font: inherit; font-size: 14px; color: var(--brand-fg); background: rgba(255, 255, 255, .06); border: 1px solid rgba(255, 255, 255, .3); border-radius: 10px; padding: 9px 10px; color-scheme: dark; cursor: pointer; }
+.preset:focus-visible { outline: 2px solid var(--mkt); outline-offset: 2px; }
+.controls { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+.weeknav { display: flex; align-items: center; background: var(--panel); border: 1px solid var(--line); border-radius: 10px; }
+.weeknav button { border: 0; background: none; color: var(--fg); font: inherit; font-size: 20px; width: 40px; height: 40px; cursor: pointer; border-radius: 10px; }
+.weeknav button:disabled { opacity: .3; cursor: default; }
+.weeknav button:not(:disabled):hover { background: var(--chip); }
+.btn { font: inherit; font-weight: 500; color: var(--fg); background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 9px 14px; cursor: pointer; }
+.btn:hover { background: var(--chip); }
+.btn.primary { background: var(--mkt); color: #FFFFFF; border-color: var(--mkt); font-weight: 700; }
+.btn.primary:hover { opacity: .9; }
+button:focus-visible, input:focus-visible, a:focus-visible, select:focus-visible { outline: 2px solid var(--mkt); outline-offset: 2px; }
+
+.notice { border-radius: 12px; padding: 12px 16px; background: var(--warn-bg); color: var(--fg); border: 1px solid var(--line); }
+
+.kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 520px), 1fr)); gap: 16px; }
+.kgroup { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 18px 20px; display: flex; flex-direction: column; gap: 14px; }
+.kgroup h3 { font-size: 15px; font-weight: 700; display: flex; align-items: center; gap: 8px; }
+.dot { width: 10px; height: 10px; border-radius: 3px; display: inline-block; flex: none; }
+.tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(110px, 1fr)); gap: 12px; }
+.tile { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.tile .label { font-size: 13px; color: var(--muted); }
+.tile .value { font-size: 30px; font-weight: 700; letter-spacing: -.01em; font-variant-numeric: tabular-nums; line-height: 1.15; }
+.tile .sub { font-size: 13px; color: var(--muted); font-variant-numeric: tabular-nums; }
+.delta-good { color: var(--delta-good); }
+.delta-bad { color: var(--delta-bad); }
+.delta-flat { color: var(--muted); }
+
+.grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 480px), 1fr)); gap: 16px; }
+.card { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 18px 20px; display: flex; flex-direction: column; gap: 12px; min-width: 0; }
+.card-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 6px 16px; }
+.card h2 { font-size: 17px; font-weight: 700; }
+.legend { display: flex; flex-wrap: wrap; gap: 6px 14px; font-size: 13px; color: var(--muted); }
+.legend span { display: inline-flex; align-items: center; gap: 6px; }
+
+.chart { width: 100%; min-height: 230px; }
+.chart svg { display: block; width: 100%; }
+.chart text { fill: var(--muted); font-family: var(--font); font-size: 12px; }
+.chart .val { fill: var(--fg); font-weight: 700; }
+.chart .sel { fill: var(--fg); font-weight: 700; }
+
+.stack-row { display: flex; flex-direction: column; gap: 6px; }
+.stack-row + .stack-row { margin-top: 10px; }
+.stack-title { display: flex; justify-content: space-between; gap: 8px; font-size: 14px; font-weight: 500; }
+.stack { display: flex; height: 26px; border-radius: 7px; overflow: hidden; background: var(--chip); }
+.stack div { height: 100%; }
+.stack-legend { display: flex; flex-wrap: wrap; gap: 4px 14px; font-size: 13px; color: var(--muted); font-variant-numeric: tabular-nums; }
+.stack-legend span { display: inline-flex; align-items: center; gap: 6px; }
+
+.hbars { display: flex; flex-direction: column; gap: 8px; }
+.hbar { display: grid; grid-template-columns: minmax(90px, 160px) 1fr 32px; align-items: center; gap: 10px; font-size: 14px; }
+.hbar .track { display: flex; height: 20px; }
+.hbar .track div { height: 100%; }
+.hbar .track div:first-child { border-radius: 5px 0 0 5px; }
+.hbar .track div:last-child { border-radius: 0 5px 5px 0; }
+.hbar .track div:only-child { border-radius: 5px; }
+.hbar .n { text-align: right; font-weight: 700; font-variant-numeric: tabular-nums; }
+
+.tbl-wrap { overflow-x: auto; max-height: 440px; overflow-y: auto; }
+table { width: 100%; border-collapse: collapse; font-size: 14px; }
+th { text-align: left; font-weight: 500; color: var(--muted); font-size: 12px; text-transform: uppercase; letter-spacing: .06em; padding: 8px 10px; border-bottom: 1px solid var(--line); position: sticky; top: 0; background: var(--panel); white-space: nowrap; }
+td { padding: 9px 10px; border-bottom: 1px solid var(--line); vertical-align: top; }
+td.nowrap { white-space: nowrap; }
+tr:last-child td { border-bottom: 0; }
+.lst { display: inline-flex; align-items: center; gap: 6px; white-space: nowrap; }
+.chip { display: inline-block; font-size: 12px; font-weight: 500; padding: 2px 8px; border-radius: 999px; background: var(--chip); color: var(--fg); white-space: nowrap; margin: 1px 4px 1px 0; }
+.chip.bad { background: var(--hot); color: var(--hot-fg); font-weight: 700; }
+.chip.warn { background: var(--warn-bg); color: var(--warn); }
+.chip.ok { background: var(--ok-bg); color: var(--ok); }
+.empty { color: var(--muted); padding: 10px 0; }
+
+.skel { background: linear-gradient(90deg, var(--chip), var(--line), var(--chip)); background-size: 200% 100%; border-radius: 8px; min-height: 18px; }
+@media (prefers-reduced-motion: no-preference) { .skel { animation: shimmer 1.4s ease-in-out infinite; } }
+@keyframes shimmer { from { background-position: 100% 0; } to { background-position: -100% 0; } }
+
+.dec { gap: 16px; }
+.dec-form { display: grid; grid-template-columns: minmax(0, 1fr) minmax(150px, 190px) minmax(140px, 170px) 160px auto; gap: 10px; align-items: end; }
+@media (max-width: 760px) { .dec-form { grid-template-columns: 1fr 1fr; } .dec-form .fld-text { grid-column: 1 / -1; } }
+.fld { display: flex; flex-direction: column; gap: 4px; font-size: 13px; color: var(--muted); min-width: 0; }
+.dec-form input, .dec-form select { font: inherit; font-size: 15px; color: var(--fg); background: var(--bg); border: 1px solid var(--line); border-radius: 10px; padding: 9px 12px; min-width: 0; }
+.cu { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; color: var(--muted); flex-wrap: wrap; margin-top: 4px; }
+.cu a { color: var(--ok); font-weight: 500; }
+.cu .err { color: var(--delta-bad); }
+.cu .mini { font: inherit; font-size: 13px; color: var(--fg); background: var(--bg); border: 1px solid var(--line); border-radius: 8px; padding: 4px 6px; }
+.dec-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; }
+.dec-item { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 10px; align-items: start; padding: 10px 0; border-bottom: 1px solid var(--line); }
+.dec-item:last-child { border-bottom: 0; }
+.dec-item input[type=checkbox] { width: 18px; height: 18px; margin-top: 2px; accent-color: var(--mkt); }
+.dec-item.done .dec-text { text-decoration: line-through; color: var(--muted); }
+.dec-meta { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 4px; }
+.linkbtn { border: 0; background: none; font: inherit; font-size: 13px; color: var(--muted); cursor: pointer; padding: 2px 4px; border-radius: 6px; }
+.linkbtn:hover { color: var(--delta-bad); }
+.linkbtn.confirm { color: var(--delta-bad); font-weight: 700; }
+.linkbtn.send { color: var(--ok); font-weight: 500; }
+.linkbtn.send:hover { color: var(--fg); }
+.dec-cols { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr)); gap: 24px; }
+.dec-cols h3 { font-size: 14px; font-weight: 700; margin-bottom: 4px; }
+</style>
+
+<div class="wrap">
+  <header class="top">
+    <div>
+      <p class="eyebrow">Grupo Arttico · ClickUp</p>
+      <h1>Sprint MKT &amp; Design</h1>
+      <p id="takeaway" class="takeaway">Lendo as listas Arttico — MKT e DESIGN no ClickUp…</p>
+    </div>
+    <div class="controls">
+      <div class="weeknav range">
+        <button id="prev" aria-label="Período anterior">‹</button>
+        <label class="pick" for="from">De <input id="from" type="date" min="2024-11-01"></label>
+        <label class="pick" for="to">até <input id="to" type="date" min="2024-11-01"></label>
+        <button id="next" aria-label="Próximo período">›</button>
+      </div>
+      <select id="preset" class="preset" aria-label="Atalhos de período">
+        <option value="">Atalhos</option>
+        <option value="lastweek">Semana anterior</option>
+        <option value="thisweek">Esta semana</option>
+        <option value="d15">Últimos 15 dias</option>
+        <option value="d30">Últimos 30 dias</option>
+        <option value="lastmonth">Mês anterior</option>
+        <option value="thismonth">Este mês</option>
+      </select>
+      <button id="refresh" class="btn">Atualizar</button>
+      <span id="updated" class="muted small"></span>
+    </div>
+  </header>
+
+  <div id="notice" class="notice" role="status" hidden></div>
+
+  <section id="resumo" class="kpis" aria-label="Resumo do período"></section>
+
+  <div class="grid2">
+    <section class="card" id="card-semanas">
+      <div class="card-head">
+        <h2 id="semanas-title">Entregas por semana</h2>
+        <div class="legend"><span><i class="dot" style="background:var(--mkt)"></i>MKT</span><span><i class="dot" style="background:var(--design)"></i>DESIGN</span></div>
+      </div>
+      <p class="muted small">Barras fortes: dentro do período escolhido. Barras claras: antes dele, para comparar.</p>
+      <div class="chart" id="chart-semanas"><div class="skel" style="height:220px"></div></div>
+    </section>
+    <section class="card" id="card-etapas">
+      <div class="card-head"><h2>Onde o tempo ficou</h2></div>
+      <p class="muted small">Soma do tempo que as entregas do período passaram em cada etapa</p>
+      <div id="etapas"><div class="skel" style="height:160px"></div></div>
+    </section>
+  </div>
+
+  <div class="grid2">
+    <section class="card" id="card-tipos">
+      <div class="card-head">
+        <h2>Entregas por tipo</h2>
+        <div class="legend"><span><i class="dot" style="background:var(--mkt)"></i>MKT</span><span><i class="dot" style="background:var(--design)"></i>DESIGN</span></div>
+      </div>
+      <div id="tipos"><div class="skel" style="height:160px"></div></div>
+    </section>
+    <section class="card" id="card-entregues">
+      <div class="card-head"><h2>Entregues no período</h2><span id="entregues-n" class="muted small"></span></div>
+      <div class="tbl-wrap" id="entregues"><div class="skel" style="height:160px"></div></div>
+    </section>
+  </div>
+
+  <section class="card" id="card-atencao">
+    <div class="card-head"><h2>Atenção agora</h2><span id="atencao-n" class="muted small"></span></div>
+    <p class="muted small">Tarefas abertas hoje com prazo vencido ou próximo, sem responsável, sem prazo ou paradas há mais de 14 dias no mesmo status. Tarefas recorrentes (Capa | Reels, Atualizar destaques) ficam de fora.</p>
+    <div class="tbl-wrap" id="atencao"><div class="skel" style="height:160px"></div></div>
+  </section>
+
+  <section class="card" id="card-proximos">
+    <div class="card-head"><h2>Vence nos próximos 7 dias</h2><span id="proximos-n" class="muted small"></span></div>
+    <div class="tbl-wrap" id="proximos"><div class="skel" style="height:120px"></div></div>
+  </section>
+
+  <section class="card dec" id="card-decisoes">
+    <div class="card-head"><h2>Decisões do sprint</h2><span id="dec-sub" class="muted small"></span></div>
+    <div class="dec-form" id="dec-form">
+      <label class="fld fld-text" for="dec-text">Decisão
+        <input id="dec-text" type="text" placeholder="Nova decisão ou próximo passo"></label>
+      <label class="fld" for="dec-owner">Responsável
+        <select id="dec-owner">
+          <option value="">Sem responsável</option>
+          <option value="Ilze Karoline">Ilze Karoline</option>
+          <option value="Renato Romeu">Renato Romeu</option>
+          <option value="Thiago Barretto">Thiago Barretto</option>
+          <option value="Editor de vídeo">Editor de vídeo</option>
+        </select></label>
+      <label class="fld" for="dec-list">Kanban
+        <select id="dec-list">
+          <option value="">Não criar tarefa</option>
+          <option value="901301699044">Arttico — MKT</option>
+          <option value="901305686770">DESIGN</option>
+        </select></label>
+      <label class="fld" for="dec-due">Prazo
+        <input id="dec-due" type="date" min="2026-01-01" max="2099-12-31"></label>
+      <button id="dec-add" class="btn primary">Adicionar</button>
+    </div>
+    <p id="dec-status" class="muted small" hidden></p>
+    <div class="dec-cols">
+      <div><h3 id="dec-cur-title">Neste sprint</h3><ul class="dec-list" id="dec-cur"></ul></div>
+      <div><h3 id="dec-prev-title">Do sprint anterior</h3><ul class="dec-list" id="dec-prev"></ul></div>
+    </div>
+  </section>
+</div>
+
+<script>
+(() => {
+  const SERVER = 'ClickUp';
+  const LISTS = {
+    '901301699044': { key: 'mkt', name: 'MKT', full: 'Arttico — MKT', color: 'var(--mkt)', final: ['concluído', 'feito'], stages: ['a fazer', 'fazendo', 'análise'] },
+    '901305686770': { key: 'design', name: 'DESIGN', full: 'DESIGN', color: 'var(--design)', final: ['feito', 'finalizado'], stages: ['ideias / demandas', 'a fazer', 'fazendo', 'análise'] },
+  };
+  const ORDER = ['901301699044', '901305686770'];
+  const STAGE_COLOR = { 'ideias / demandas': 'var(--st-ideias)', 'a fazer': 'var(--st-afazer)', 'fazendo': 'var(--st-fazendo)', 'análise': 'var(--st-analise)' };
+  const STAGE_LABEL = { 'ideias / demandas': 'Ideias / demandas', 'a fazer': 'A fazer', 'fazendo': 'Fazendo', 'análise': 'Análise' };
+  const DAY = 864e5, WEEK = 7 * DAY, TZ = 3 * 3600e3, STALE_DAYS = 14, MIN_KEY = '2024-11-01';
+  // Fora do painel: tarefas retiradas a pedido e qualquer tarefa com Bruno como responsável.
+  // Subtarefas também ficam de fora: contam como parte da tarefa-mãe (pedido com subtasks: false).
+  const EXCLUDE_IDS = new Set(['86adx124j' /* NOVO LAYOUT | THUMBS */, '86ajypk1p' /* STORY | CASE - MK | TASTTO */]);
+  const isExcluded = (t) => EXCLUDE_IDS.has(t.id) || (t.assignees || []).some((a) => /bruno/i.test(a.username || ''));
+  // Quem pode receber decisões do sprint: id no ClickUp e o kanban padrão.
+  const PEOPLE = {
+    'Ilze Karoline': { id: '82078650', list: '901301699044' },
+    'Renato Romeu': { id: '118102536', list: '901305686770' },
+    'Thiago Barretto': { id: '3225627', list: '901301699044' },
+    'Editor de vídeo': { id: '102869507', list: '901301699044' },
+  };
+  // Quem aparece como autor da atribuição nas tarefas criadas pelo painel.
+  const ASSIGNED_BY = 'Thiago Barretto';
+  // Recorrentes: nunca contam como atrasadas ou paradas.
+  const RECURRING = /CAPA\s*\|\s*REELS|ATUALIZAR\s+DESTAQUES/i;
+
+  // from/to: início do primeiro dia e início do dia seguinte ao último (horário de Fortaleza).
+  const S = { mcp: null, db: null, tasks: [], loaded: false, loading: false, polling: false, loadedCutoff: null, updatedAt: null, fullAt: 0, lastSeen: 0, missing: [], from: null, to: null, dec: {}, decSubs: [], decReady: false, sending: {}, sendErr: {} };
+
+  // ---------- helpers ----------
+  const $ = (id) => document.getElementById(id);
+  function h(tag, props, ...kids) {
+    const el = document.createElement(tag);
+    for (const [k, v] of Object.entries(props || {})) {
+      if (v == null || v === false) continue;
+      if (k === 'class') el.className = v;
+      else if (k === 'text') el.textContent = v;
+      else if (k === 'style') el.style.cssText = v;
+      else if (k.startsWith('on')) el.addEventListener(k.slice(2), v);
+      else el.setAttribute(k, v === true ? '' : v);
+    }
+    for (const c of kids.flat()) { if (c == null || c === false) continue; el.append(c instanceof Node ? c : document.createTextNode(String(c))); }
+    return el;
+  }
+  const NS = 'http://www.w3.org/2000/svg';
+  function sv(tag, attrs, text) { const el = document.createElementNS(NS, tag); for (const [k, v] of Object.entries(attrs || {})) el.setAttribute(k, v); if (text != null) el.textContent = text; return el; }
+  const loc = (ms) => new Date(ms - TZ);
+  const keyOf = (ms) => loc(ms).toISOString().slice(0, 10);
+  function mondayOf(ms) { const d = loc(ms); const dow = (d.getUTCDay() + 6) % 7; return Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate() - dow) + TZ; }
+  const dayStart = (ms) => { const d = loc(ms); return Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate()) + TZ; };
+  const keyStart = (k) => Date.parse(k) + TZ;
+  const monthStart = (ms, add) => { const d = loc(ms); return Date.UTC(d.getUTCFullYear(), d.getUTCMonth() + (add || 0), 1) + TZ; };
+  const MESES = ['jan', 'fev', 'mar', 'abr', 'mai', 'jun', 'jul', 'ago', 'set', 'out', 'nov', 'dez'];
+  const dm = (ms) => { const d = loc(ms); return String(d.getUTCDate()).padStart(2, '0') + '/' + String(d.getUTCMonth() + 1).padStart(2, '0'); };
+  const dmFromKey = (k) => k.slice(8, 10) + '/' + k.slice(5, 7);
+  const median = (a) => { if (!a.length) return null; const s = [...a].sort((x, y) => x - y); const m = s.length >> 1; return s.length % 2 ? s[m] : (s[m - 1] + s[m]) / 2; };
+  const n1 = (x) => x.toFixed(1).replace('.', ',');
+  const fmtDays = (x) => x == null ? '—' : x < 1 ? Math.max(1, Math.round(x * 24)) + ' h' : n1(x) + ' d';
+  const plural = (n, a, b) => n + ' ' + (n === 1 ? a : b);
+  const daysBetweenKeys = (a, b) => Math.round((Date.parse(b) - Date.parse(a)) / DAY);
+  const chunk = (a, n) => { const o = []; for (let i = 0; i < a.length; i += n) o.push(a.slice(i, i + n)); return o; };
+  const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+
+  function kind(raw) {
+    const n = raw.toUpperCase().trim();
+    if (/^(\[TASTTO\]\s*)?C\s*\|/.test(n) || n.includes('CARROSSEL')) return 'Carrossel';
+    if (n.startsWith('E.V')) return 'Edição de vídeo';
+    if (/^E\s*\|/.test(n) || n.includes('ESTÁTICO')) return 'Post estático';
+    if (n.includes('CRIATIVO')) return 'Criativo de anúncio';
+    if (n.includes('IDENTIDADE')) return 'Identidade visual';
+    if (['FLYER', 'PANFLETO', 'DISPLAY', 'CARDÁPIO', 'CONVITE', 'BANNER', 'ADESIVO', 'OUTDOOR', 'PLACA', 'CARTA', 'AVALIAÇÃO'].some((k) => n.includes(k))) return 'Impresso e PDV';
+    if (n.includes('CAPA') || n.includes('THUMB')) return 'Capas e thumbs';
+    if (n.includes('ALTERA') || n.includes('AJUSTE')) return 'Ajustes';
+    if (n.includes('REELS') || n.includes('VIDEO') || n.includes('VÍDEO')) return 'Vídeo';
+    if (n.includes('LEGENDA')) return 'Legenda';
+    if (n.includes('LP') || n.includes('LANDING')) return 'Landing page';
+    return 'Outros';
+  }
+
+  // ---------- data ----------
+  async function tool(name, input) {
+    const run = () => S.mcp.callTool(SERVER, name, input, { cache: false });
+    let r;
+    try { r = await run(); }
+    catch (e) {
+      if (!e || !e.retryable) throw e;
+      await sleep((e.retryAfterMs || 1200) + Math.random() * 800);
+      r = await run();
+    }
+    let p = r && r.payload;
+    if (typeof p === 'string') { try { p = JSON.parse(p); } catch (_) { /* keep text */ } }
+    return p;
+  }
+
+  function build(t, det, tis) {
+    const L = LISTS[t.list.id];
+    const hist = (tis && tis.status_history) || [];
+    const mins = {};
+    for (const s of hist) mins[s.status] = Number(s.total_time_minutes) || 0;
+    const status = typeof t.status === 'string' ? t.status : (t.status && t.status.status) || '';
+    let done = null;
+    if (L.final.includes(status)) {
+      const f = hist.filter((s) => L.final.includes(s.status)).map((s) => Number(s.since)).filter(Boolean);
+      done = f.length ? Math.min(...f) : det && det.d ? Number(det.d) : t.date_closed ? Number(t.date_closed) : null;
+    }
+    const sinces = hist.map((s) => Number(s.since)).filter(Boolean);
+    const created = det && det.c ? Number(det.c) : sinces.length ? Math.min(...sinces) : null;
+    const curSince = tis && tis.current_status && Number(tis.current_status.since) || null;
+    return {
+      id: t.id, name: (t.name || '').trim(), url: t.url, status, listId: t.list.id, L,
+      assignees: (t.assignees || []).map((a) => a.username).filter(Boolean),
+      due: t.due_date ? Number(t.due_date) : null, created, done, mins, curSince, kind: kind(t.name || ''), recurring: RECURRING.test(t.name || ''),
+    };
+  }
+
+  // Datas de criação/entrega e tempo em cada status para uma lista de tarefas.
+  async function details(raw) {
+    const ids = raw.map((t) => t.id);
+    const det = {}, tis = {};
+    await Promise.all([
+      (async () => {
+        for (const c of chunk(ids, 50)) {
+          const p = await tool('clickup_execute_operator', { model: 'task', operator: 'get_many', body: { ids: c }, query: "tasks[?status=='found'].{id: object_id, c: data.time_mgmt.date_created, d: data.time_mgmt.date_done}" });
+          (Array.isArray(p) ? p : []).forEach((x) => { det[x.id] = x; });
+        }
+      })(),
+      (async () => {
+        for (const c of chunk(ids, 100)) {
+          const p = await tool('clickup_get_bulk_tasks_time_in_status', { task_ids: c });
+          Object.assign(tis, (p && p.tasks) || {});
+        }
+      })(),
+    ]);
+    return raw.map((t) => build(t, det[t.id], tis[t.id]));
+  }
+
+  // Atualização automática: a cada minuto (com a aba visível) procura tarefas criadas ou alteradas
+  // desde a última leitura e busca só elas. A cada 30 minutos faz uma leitura completa.
+  const POLL_MS = 60e3, FULL_MS = 30 * 60e3;
+  let pollTimer = null;
+  function schedulePoll(ms) {
+    clearTimeout(pollTimer);
+    pollTimer = setTimeout(poll, ms == null ? POLL_MS : ms);
+  }
+  async function poll() {
+    if (!S.mcp || !S.loaded || S.loading || S.polling || document.hidden) { schedulePoll(); return; }
+    if (Date.now() - (S.fullAt || 0) > FULL_MS) { await load(); schedulePoll(); return; }
+    S.polling = true;
+    try {
+      const p = await tool('clickup_filter_tasks', { list_ids: ORDER, include_closed: true, order_by: 'updated', page: 0, subtasks: false });
+      const ts = (p && p.tasks) || [];
+      const changed = ts.filter((t) => Number(t.date_updated) > (S.lastSeen || 0));
+      if (changed.length >= ts.length && p && p.has_more) { S.polling = false; await load(); schedulePoll(); return; }
+      if (changed.length) {
+        S.lastSeen = Math.max(S.lastSeen || 0, ...changed.map((t) => Number(t.date_updated) || 0));
+        const keep = changed.filter((t) => t.list && LISTS[t.list.id] && !isExcluded(t));
+        const fresh = keep.length ? await details(keep) : [];
+        const drop = new Set(changed.map((t) => t.id));
+        S.tasks = S.tasks.filter((t) => !drop.has(t.id)).concat(fresh);
+        render();
+      }
+      S.updatedAt = Date.now();
+      showUpdated();
+      if (/ClickUp/.test($('notice').textContent) && !(S.missing && S.missing.length)) showNotice(null);
+    } catch (e) {
+      const code = e && e.code;
+      if (['needs_reauth', 'server_not_connected', 'not_in_manifest', 'blocked_by_policy', 'selection_required'].includes(code)) showNotice(errorText(e));
+    }
+    S.polling = false;
+    schedulePoll();
+  }
+  function showUpdated() {
+    $('updated').textContent = S.updatedAt ? 'Atualiza sozinho · lido às ' + new Date(S.updatedAt).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' }) : '';
+  }
+  document.addEventListener('visibilitychange', () => { if (!document.hidden && S.loaded) schedulePoll(0); });
+
+  async function load() {
+    if (!S.mcp || S.loading) return;
+    S.loading = true; $('refresh').disabled = true; $('refresh').textContent = 'Atualizando…';
+    try {
+      const listIds = ORDER;
+      const cutoff = neededCutoff() - WEEK;
+      const map = new Map();
+      for (let page = 0; page < 40; page++) {
+        const p = await tool('clickup_filter_tasks', { list_ids: listIds, include_closed: true, order_by: 'updated', page, subtasks: false });
+        const ts = (p && p.tasks) || [];
+        ts.forEach((t) => map.set(t.id, t));
+        if (!p || !p.has_more || !ts.length || Number(ts[ts.length - 1].date_updated) < cutoff) break;
+      }
+      for (let page = 0; page < 12; page++) {
+        const p = await tool('clickup_filter_tasks', { list_ids: listIds, include_closed: false, page, subtasks: false });
+        const ts = (p && p.tasks) || [];
+        ts.forEach((t) => map.set(t.id, t));
+        if (!p || !p.has_more || !ts.length) break;
+      }
+      S.lastSeen = Math.max(0, ...[...map.values()].map((t) => Number(t.date_updated) || 0));
+      const all = [...map.values()].filter((t) => t.list && LISTS[t.list.id] && !isExcluded(t));
+      S.tasks = await details(all);
+      S.updatedAt = Date.now();
+      S.fullAt = Date.now();
+      S.loadedCutoff = cutoff;
+      S.loaded = true;
+      // Uma lista sem nenhuma tarefa quase sempre é falta de acesso da conta conectada, não "zero entregas".
+      const seen = new Set([...map.values()].map((t) => t.list && t.list.id));
+      S.missing = ORDER.filter((id) => !seen.has(id)).map((id) => LISTS[id].full);
+      showNotice(S.missing.length ? 'A conta do ClickUp conectada ao claude.ai não tem acesso a: ' + S.missing.join(', ') + '. Os números dessa lista não aparecem até ela ser compartilhada com essa conta (ou até reconectar o ClickUp com uma conta que tenha acesso).' : null);
+    } catch (e) {
+      showNotice(errorText(e));
+    }
+    S.loading = false; $('refresh').disabled = false; $('refresh').textContent = 'Atualizar';
+    render();
+    // O período mudou para datas mais antigas enquanto carregava: busca o que falta.
+    if (S.loaded && S.loadedCutoff != null && neededCutoff() - WEEK < S.loadedCutoff) load();
+  }
+
+  function errorText(e) {
+    const code = e && e.code;
+    if (code === 'server_not_connected') return 'O ClickUp não está conectado. Adicione o ClickUp em claude.ai → Configurações → Conectores e clique em Atualizar.';
+    if (code === 'needs_reauth') return 'A conexão com o ClickUp expirou. Reconecte em claude.ai → Configurações → Conectores e clique em Atualizar.';
+    if (code === 'selection_required') return 'Há mais de uma conexão do ClickUp. Escolha qual usar no aviso do claude.ai e clique em Atualizar.';
+    if (code === 'not_in_manifest' || code === 'consent_required') return 'O acesso ao ClickUp não foi permitido para esta página. Clique em Atualizar e permita o acesso.';
+    if (code === 'blocked_by_policy' || code === 'approval_required') return 'Uma política da organização bloqueia a leitura do ClickUp nesta página.';
+    if (code === 'tool_error') return 'O ClickUp recusou a consulta: ' + (e.message || 'sem detalhes') + '. Tente Atualizar em alguns minutos.';
+    if (code === 'server_unavailable') return 'O ClickUp não respondeu a tempo. Tente Atualizar em alguns minutos.';
+    return 'Não foi possível ler o ClickUp agora' + (code ? ' (' + code + ')' : '') + '. Tente Atualizar.';
+  }
+  function showNotice(text) { const n = $('notice'); n.hidden = !text; n.textContent = text || ''; }
+
+  // ---------- metrics ----------
+  function stats(ws, we, lid) {
+    const ts = S.tasks.filter((t) => t.listId === lid);
+    const created = ts.filter((t) => t.created >= ws && t.created < we);
+    const deliv = ts.filter((t) => t.done && t.done >= ws && t.done < we);
+    const leads = deliv.filter((t) => t.created).map((t) => (t.done - t.created) / DAY);
+    const withDue = deliv.filter((t) => t.due);
+    const onTime = withDue.filter((t) => keyOf(t.done) <= keyOf(t.due));
+    return { created: created.length, deliv, delivered: deliv.length, lead: median(leads), withDue: withDue.length, onTime: onTime.length, pct: withDue.length ? onTime.length / withDue.length : null };
+  }
+
+  // ---------- render ----------
+  function render() {
+    renderRange();
+    if (!S.loaded) return;
+    const len = S.to - S.from;
+    const cur = {}, prev = {};
+    for (const lid of ORDER) { cur[lid] = stats(S.from, S.to, lid); prev[lid] = stats(S.from - len, S.from, lid); }
+    renderTakeaway(cur, prev);
+    renderKpis(cur, prev);
+    renderWeeks();
+    renderStages(cur);
+    renderTypes(cur);
+    renderDelivered(cur);
+    renderAttention();
+    renderUpcoming();
+    showUpdated();
+  }
+
+  const periodLabel = (f, t) => dm(f) + ' a ' + dm(t - DAY);
+  const todayEnd = () => dayStart(Date.now()) + DAY;
+
+  // Barras do gráfico: semanas (ao menos 8, completando para trás) ou meses quando o período passa de 26 semanas.
+  function buckets() {
+    const firstW = mondayOf(S.from), lastW = mondayOf(S.to - DAY);
+    const nW = Math.round((lastW - firstW) / WEEK) + 1;
+    if (nW > 26) {
+      const out = [];
+      for (let a = monthStart(S.from); a < S.to; a = monthStart(a, 1)) out.push({ a, b: monthStart(a, 1), label: MESES[loc(a).getUTCMonth()] + '/' + String(loc(a).getUTCFullYear()).slice(2) });
+      return { unit: 'mês', list: out };
+    }
+    const start = nW < 8 ? lastW - 7 * WEEK : firstW;
+    const out = [];
+    for (let a = start; a <= lastW; a += WEEK) out.push({ a, b: a + WEEK, label: dm(a) });
+    return { unit: 'semana', list: out };
+  }
+  function neededCutoff() {
+    const len = S.to - S.from;
+    return Math.min(S.from - len, buckets().list[0].a);
+  }
+
+  function renderRange() {
+    const f = $('from'), t = $('to');
+    const maxK = keyOf(Date.now());
+    f.max = maxK; t.max = maxK;
+    if (f !== document.activeElement) f.value = keyOf(S.from);
+    if (t !== document.activeElement) t.value = keyOf(S.to - DAY);
+    t.min = keyOf(S.from);
+    $('prev').disabled = S.from - (S.to - S.from) < keyStart(MIN_KEY);
+    $('next').disabled = S.to >= todayEnd();
+  }
+
+  function setRange(from, to) {
+    from = Math.max(keyStart(MIN_KEY), dayStart(from));
+    to = Math.min(todayEnd(), dayStart(to));
+    if (to <= from) to = from + DAY;
+    if (from === S.from && to === S.to) { renderRange(); return; }
+    S.from = from; S.to = to;
+    $('preset').value = '';
+    if (S.loaded && S.loadedCutoff != null && neededCutoff() - WEEK < S.loadedCutoff) { render(); load(); }
+    else render();
+  }
+
+  function applyPreset(v) {
+    const now = Date.now(), mon = mondayOf(now), end = todayEnd();
+    if (v === 'lastweek') setRange(mon - WEEK, mon);
+    else if (v === 'thisweek') setRange(mon, end);
+    else if (v === 'd15') setRange(end - 15 * DAY, end);
+    else if (v === 'd30') setRange(end - 30 * DAY, end);
+    else if (v === 'lastmonth') setRange(monthStart(now, -1), monthStart(now));
+    else if (v === 'thismonth') setRange(monthStart(now), end);
+  }
+
+  function deltaText(curV, prevV, lowerIsBetter, neutral, fmt) {
+    if (curV == null || prevV == null) return { text: 'sem comparação', cls: 'delta-flat' };
+    const d = curV - prevV;
+    if (Math.abs(d) < 1e-9) return { text: '= período anterior', cls: 'delta-flat' };
+    const good = lowerIsBetter ? d < 0 : d > 0;
+    return { text: (d > 0 ? '▲ ' : '▼ ') + fmt(Math.abs(d)) + ' vs período anterior', cls: neutral ? 'delta-flat' : good ? 'delta-good' : 'delta-bad' };
+  }
+
+  function renderTakeaway(cur, prev) {
+    const parts = ORDER.map((lid) => {
+      const c = cur[lid].delivered, p = prev[lid].delivered;
+      const d = c - p;
+      return LISTS[lid].name + ' entregou ' + c + (d === 0 ? ' (igual ao período anterior)' : ' (' + (d > 0 ? '+' : '−') + Math.abs(d) + ' vs período anterior)');
+    });
+    const att = attentionRows().filter((r) => r.score >= 2).length;
+    const days = Math.round((S.to - S.from) / DAY);
+    $('takeaway').textContent = 'De ' + periodLabel(S.from, S.to) + ' (' + plural(days, 'dia', 'dias') + '): ' + parts.join(' e ') + '. ' + (att ? plural(att, 'tarefa aberta pede', 'tarefas abertas pedem') + ' atenção.' : 'Nenhuma tarefa aberta com prazo vencido ou parada.');
+  }
+
+  function renderKpis(cur, prev) {
+    const root = $('resumo'); root.replaceChildren();
+    for (const lid of ORDER) {
+      const L = LISTS[lid], c = cur[lid], p = prev[lid];
+      if ((S.missing || []).includes(L.full)) {
+        root.append(h('div', { class: 'kgroup', id: 'kpi-' + L.key },
+          h('h3', null, h('i', { class: 'dot', style: 'background:' + L.color }), L.full),
+          h('p', { class: 'muted', text: 'Sem acesso a esta lista pela conta do ClickUp conectada. Compartilhe a lista com essa conta no ClickUp para os números aparecerem.' })));
+        continue;
+      }
+      const tiles = [
+        { label: 'Entregues', value: String(c.delivered), d: deltaText(c.delivered, p.delivered, false, false, (x) => String(x)) },
+        { label: 'No prazo', value: c.pct == null ? '—' : Math.round(c.pct * 100) + '%', sub: c.withDue ? c.onTime + ' de ' + c.withDue + ' com prazo' : 'nenhuma com prazo', d: deltaText(c.pct == null ? null : c.pct * 100, p.pct == null ? null : p.pct * 100, false, false, (x) => Math.round(x) + ' p.p.') },
+        { label: 'Tempo típico', value: fmtDays(c.lead), sub: 'da criação à entrega', d: deltaText(c.lead, p.lead, true, false, (x) => fmtDays(x)) },
+        { label: 'Criadas', value: String(c.created), d: deltaText(c.created, p.created, false, true, (x) => String(x)) },
+      ];
+      root.append(h('div', { class: 'kgroup', id: 'kpi-' + L.key },
+        h('h3', null, h('i', { class: 'dot', style: 'background:' + L.color }), L.full),
+        h('div', { class: 'tiles' }, tiles.map((t) => h('div', { class: 'tile' },
+          h('span', { class: 'label', text: t.label }),
+          h('span', { class: 'value', text: t.value }),
+          t.sub ? h('span', { class: 'sub', text: t.sub }) : null,
+          h('span', { class: 'sub ' + t.d.cls, text: t.d.text }))))));
+    }
+  }
+
+  function renderWeeks() {
+    const box = $('chart-semanas');
+    const bk = buckets(); const weeks = bk.list;
+    $('semanas-title').textContent = bk.unit === 'mês' ? 'Entregas por mês' : 'Entregas por semana';
+    const data = weeks.map((w) => ({ w, sel: w.b > S.from && w.a < S.to, v: ORDER.map((lid) => stats(w.a, w.b, lid).delivered) }));
+    const W = Math.max(300, box.clientWidth || 600), H = 230, m = { t: 20, r: 6, b: 30, l: 30 };
+    const max = Math.max(4, ...data.flatMap((d) => d.v));
+    const step = Math.max(1, Math.ceil(max / 4)); const top = step * 4;
+    const y = (v) => m.t + (H - m.t - m.b) * (1 - v / top);
+    const band = (W - m.l - m.r) / weeks.length; const nS = ORDER.length; const bw = Math.max(2, Math.min(26, (band - 6) / nS - 2));
+    const svg = sv('svg', { viewBox: `0 0 ${W} ${H}`, width: '100%', height: H, role: 'img', 'aria-label': 'Entregas por ' + bk.unit + ', MKT e DESIGN' });
+    const labelEvery = Math.max(1, Math.ceil(weeks.length / Math.max(1, Math.floor((W - m.l - m.r) / 48))));
+    for (let v = 0; v <= top; v += step) {
+      svg.append(sv('line', { x1: m.l, x2: W - m.r, y1: y(v), y2: y(v), stroke: 'var(--line)', 'stroke-width': 1 }));
+      svg.append(sv('text', { x: m.l - 8, y: y(v) + 4, 'text-anchor': 'end' }, v));
+    }
+    data.forEach((d, i) => {
+      const cx = m.l + band * i + band / 2; const sel = d.sel;
+      d.v.forEach((v, j) => {
+        const x = cx - (nS * bw + (nS - 1) * 2) / 2 + j * (bw + 2); const col = LISTS[ORDER[j]].color;
+        const hgt = Math.max(v ? 2 : 0, y(0) - y(v));
+        svg.append(sv('rect', { x, y: y(0) - hgt, width: Math.max(2, bw), height: hgt, rx: 3, fill: col, opacity: sel ? 1 : 0.4 }));
+        if (v && bw >= 10) svg.append(sv('text', { x: x + bw / 2, y: y(0) - hgt - 5, 'text-anchor': 'middle', class: sel ? 'val' : '' }, v));
+      });
+      if (i % labelEvery === 0) svg.append(sv('text', { x: cx, y: H - 10, 'text-anchor': 'middle', class: sel ? 'sel' : '' }, d.w.label));
+    });
+    box.replaceChildren(svg);
+  }
+
+  function renderStages(cur) {
+    const root = $('etapas'); root.replaceChildren();
+    for (const lid of ORDER) {
+      const L = LISTS[lid]; const deliv = cur[lid].deliv;
+      const sums = L.stages.map((s) => ({ s, d: deliv.reduce((a, t) => a + (t.mins[s] || 0), 0) / 1440 }));
+      const total = sums.reduce((a, x) => a + x.d, 0);
+      const row = h('div', { class: 'stack-row' },
+        h('div', { class: 'stack-title' }, h('span', { class: 'lst' }, h('i', { class: 'dot', style: 'background:' + L.color }), L.full), h('span', { class: 'muted small num', text: deliv.length ? plural(deliv.length, 'entrega', 'entregas') + ' · ' + Math.round(total) + ' dias somados' : 'sem entregas' })));
+      if (total > 0) {
+        row.append(h('div', { class: 'stack', role: 'img', 'aria-label': sums.map((x) => STAGE_LABEL[x.s] + ' ' + Math.round(100 * x.d / total) + '%').join(', ') },
+          sums.filter((x) => x.d > 0).map((x) => h('div', { style: `width:${100 * x.d / total}%;background:${STAGE_COLOR[x.s]}` }))));
+        row.append(h('div', { class: 'stack-legend' }, sums.map((x) => h('span', null, h('i', { class: 'dot', style: 'background:' + STAGE_COLOR[x.s] }), STAGE_LABEL[x.s] + ' ' + Math.round(100 * x.d / total) + '% · ' + n1(x.d) + ' d'))));
+      } else row.append(h('div', { class: 'stack' }));
+      root.append(row);
+    }
+  }
+
+  function renderTypes(cur) {
+    const root = $('tipos'); root.replaceChildren();
+    const by = {};
+    ORDER.forEach((lid, j) => cur[lid].deliv.forEach((t) => { (by[t.kind] = by[t.kind] || ORDER.map(() => 0))[j]++; }));
+    const rows = Object.entries(by).map(([k, v]) => ({ k, v, n: v.reduce((a, b) => a + b, 0) })).sort((a, b) => b.n - a.n);
+    if (!rows.length) { root.append(h('p', { class: 'empty', text: 'Nenhuma entrega neste período.' })); return; }
+    const max = rows[0].n;
+    root.append(h('div', { class: 'hbars' }, rows.map((r) => h('div', { class: 'hbar' },
+      h('span', { text: r.k }),
+      h('div', { class: 'track', style: `width:${100 * r.n / max}%`, role: 'img', 'aria-label': r.k + ': ' + ORDER.map((id, j) => LISTS[id].full + ' ' + r.v[j]).join(', ') },
+        ORDER.map((id, j) => r.v[j] ? h('div', { style: `flex:${r.v[j]};background:${LISTS[id].color}` }) : null)),
+      h('span', { class: 'n', text: r.n })))));
+  }
+
+  function listCell(t) { return h('span', { class: 'lst' }, h('i', { class: 'dot', style: 'background:' + t.L.color }), t.L.name); }
+  function taskLink(t) { return h('a', { href: t.url, target: '_blank', rel: 'noopener', text: t.name }); }
+  function table(cols, rows) {
+    return h('table', null,
+      h('thead', null, h('tr', null, cols.map((c) => h('th', { text: c })))),
+      h('tbody', null, rows));
+  }
+
+  function renderDelivered(cur) {
+    const root = $('entregues');
+    const ts = ORDER.flatMap((lid) => cur[lid].deliv).sort((a, b) => b.done - a.done);
+    $('entregues-n').textContent = plural(ts.length, 'tarefa', 'tarefas');
+    if (!ts.length) { root.replaceChildren(h('p', { class: 'empty', text: 'Nenhuma entrega neste período.' })); return; }
+    root.replaceChildren(table(['Tarefa', 'Lista', 'Entregue', 'Levou', 'Prazo'], ts.map((t) => {
+      let chip;
+      if (!t.due) chip = h('span', { class: 'chip', text: 'sem prazo' });
+      else if (keyOf(t.done) <= keyOf(t.due)) chip = h('span', { class: 'chip ok', text: 'no prazo · ' + dm(t.due) });
+      else chip = h('span', { class: 'chip bad', text: 'atrasou ' + plural(daysBetweenKeys(keyOf(t.due), keyOf(t.done)), 'dia', 'dias') });
+      return h('tr', null, h('td', null, taskLink(t)), h('td', null, listCell(t)), h('td', { class: 'nowrap num', text: dm(t.done) }), h('td', { class: 'nowrap num', text: t.created ? fmtDays((t.done - t.created) / DAY) : '—' }), h('td', null, chip));
+    })));
+  }
+
+  function attentionRows() {
+    const today = keyOf(Date.now()); const now = Date.now();
+    return S.tasks.filter((t) => !t.done && !t.recurring).map((t) => {
+      const flags = []; let score = 0;
+      if (t.due) {
+        const dd = daysBetweenKeys(today, keyOf(t.due));
+        if (dd < 0) { flags.push(['bad', 'vencida há ' + plural(-dd, 'dia', 'dias')]); score += 4; }
+        else if (dd <= 2) { flags.push(['warn', dd === 0 ? 'vence hoje' : dd === 1 ? 'vence amanhã' : 'vence em 2 dias']); score += 3; }
+      } else { flags.push(['', 'sem prazo']); score += 1; }
+      if (!t.assignees.length) { flags.push(['warn', 'sem responsável']); score += 2; }
+      if (t.curSince) {
+        const sd = Math.floor((now - t.curSince) / DAY);
+        if (sd > STALE_DAYS) { flags.push(['warn', 'parada há ' + sd + ' dias']); score += 2; }
+      }
+      return { t, flags, score };
+    }).filter((r) => r.flags.length).sort((a, b) => b.score - a.score || (a.t.created || 0) - (b.t.created || 0));
+  }
+
+  function renderAttention() {
+    const rows = attentionRows(); const open = S.tasks.filter((t) => !t.done).length;
+    $('atencao-n').textContent = rows.length + ' de ' + plural(open, 'aberta', 'abertas');
+    const root = $('atencao');
+    if (!rows.length) { root.replaceChildren(h('p', { class: 'empty', text: 'Nenhuma tarefa aberta precisa de atenção.' })); return; }
+    const now = Date.now();
+    root.replaceChildren(table(['Tarefa', 'Lista', 'Status', 'Prazo', 'Aberta há', 'Alertas'], rows.map(({ t, flags }) => h('tr', null,
+      h('td', null, taskLink(t), t.assignees.length ? h('div', { class: 'muted small', text: t.assignees.join(', ') }) : null),
+      h('td', null, listCell(t)),
+      h('td', { class: 'nowrap', text: t.status }),
+      h('td', { class: 'nowrap num', text: t.due ? dm(t.due) : '—' }),
+      h('td', { class: 'nowrap num', text: t.created ? plural(Math.floor((now - t.created) / DAY), 'dia', 'dias') : '—' }),
+      h('td', null, flags.map(([c, txt]) => h('span', { class: 'chip ' + c, text: txt })))))));
+  }
+
+  function renderUpcoming() {
+    const today = keyOf(Date.now());
+    const ts = S.tasks.filter((t) => !t.done && t.due).map((t) => ({ t, dd: daysBetweenKeys(today, keyOf(t.due)) })).filter((x) => x.dd >= 0 && x.dd <= 7).sort((a, b) => a.t.due - b.t.due);
+    $('proximos-n').textContent = plural(ts.length, 'tarefa', 'tarefas');
+    const root = $('proximos');
+    if (!ts.length) { root.replaceChildren(h('p', { class: 'empty', text: 'Nada vence nos próximos 7 dias.' })); return; }
+    const wd = ['dom', 'seg', 'ter', 'qua', 'qui', 'sex', 'sáb'];
+    root.replaceChildren(table(['Prazo', 'Tarefa', 'Lista', 'Status', 'Responsáveis'], ts.map(({ t, dd }) => h('tr', null,
+      h('td', { class: 'nowrap num' }, h('span', { class: 'chip ' + (dd <= 1 ? 'warn' : ''), text: wd[loc(t.due).getUTCDay()] + ' ' + dm(t.due) })),
+      h('td', null, taskLink(t)),
+      h('td', null, listCell(t)),
+      h('td', { class: 'nowrap', text: t.status }),
+      h('td', { text: t.assignees.length ? t.assignees.join(', ') : '—' })))));
+  }
+
+  // ---------- sprint decisions ----------
+  // O sprint é o da semana atual (segunda-feira de hoje), sem depender do período escolhido; o anterior, uma semana antes.
+  const sprintKeys = () => { const m = mondayOf(Date.now()); return { curK: keyOf(m), prevK: keyOf(m - WEEK) }; };
+  let subscribedK = null;
+  function subscribeDecisions() {
+    const { curK, prevK } = sprintKeys();
+    if (subscribedK === curK + (S.db ? '+db' : '')) { renderDecisions(); return; }
+    subscribedK = curK + (S.db ? '+db' : '');
+    S.decSubs.forEach((u) => u()); S.decSubs = [];
+    $('dec-sub').textContent = 'Sprint desta semana · segunda, ' + dmFromKey(curK);
+    $('dec-cur-title').textContent = 'Neste sprint (' + dmFromKey(curK) + ')';
+    $('dec-prev-title').textContent = 'Do sprint anterior (' + dmFromKey(prevK) + ')';
+    renderDecisions();
+    if (!S.db) return;
+    for (const k of [curK, prevK]) {
+      try {
+        S.decSubs.push(S.db.doc('sprints/' + k).onSnapshot((snap) => {
+          const d = snap.exists ? snap.data() : null;
+          S.dec[k] = (d && Array.isArray(d.items)) ? d.items : [];
+          renderDecisions();
+        }, (e) => decStatus(e && e.code === 'revoked' ? 'As decisões não estão mais disponíveis nesta visualização.' : 'Não foi possível acompanhar as decisões agora. Recarregue a página.')));
+      } catch (_) { decStatus('Não foi possível abrir as decisões deste sprint.'); }
+    }
+  }
+  function decStatus(text) { const p = $('dec-status'); p.hidden = !text; p.textContent = text || ''; }
+
+  async function saveItems(k, items) {
+    if (!S.db) return;
+    try { await S.db.doc('sprints/' + k).set({ items, updatedAt: new Date().toISOString() }); decStatus(null); }
+    catch (e) { decStatus(e && e.code === 'quota_exceeded' ? 'O espaço de decisões está cheio. Remova decisões antigas para adicionar novas.' : 'Não foi possível salvar. Tente de novo.'); }
+  }
+
+  function renderDecisions() {
+    const { curK, prevK } = sprintKeys();
+    const enabled = !!S.db;
+    for (const id of ['dec-text', 'dec-owner', 'dec-list', 'dec-due', 'dec-add']) $(id).disabled = !enabled;
+    if (!enabled) decStatus(S.decReady ? 'As decisões só podem ser salvas abrindo esta página no claude.ai.' : 'Carregando decisões…');
+    drawList($('dec-cur'), curK, 'Nenhuma decisão registrada ainda. Escreva acima e clique em Adicionar.');
+    drawList($('dec-prev'), prevK, 'Nada registrado no sprint anterior.');
+  }
+
+  function drawList(ul, k, emptyText) {
+    const items = S.dec[k] || [];
+    if (!items.length) { ul.replaceChildren(h('li', { class: 'empty', text: S.db && !(k in S.dec) ? 'Carregando…' : emptyText })); return; }
+    ul.replaceChildren(...items.map((it) => {
+      const del = h('button', { class: 'linkbtn', type: 'button', text: 'Remover', 'aria-label': 'Remover decisão' });
+      del.addEventListener('click', () => {
+        if (!del.classList.contains('confirm')) { del.classList.add('confirm'); del.textContent = 'Confirmar'; setTimeout(() => { del.classList.remove('confirm'); del.textContent = 'Remover'; }, 4000); return; }
+        saveItems(k, (S.dec[k] || []).filter((x) => x.id !== it.id));
+      });
+      const cb = h('input', { type: 'checkbox', id: 'dec-' + it.id, 'aria-label': 'Concluída' });
+      cb.checked = !!it.done;
+      cb.addEventListener('change', () => saveItems(k, (S.dec[k] || []).map((x) => x.id === it.id ? { ...x, done: cb.checked } : x)));
+      const L = it.listId && LISTS[it.listId];
+      return h('li', { class: 'dec-item' + (it.done ? ' done' : '') }, cb,
+        h('div', null, h('label', { class: 'dec-text', for: 'dec-' + it.id, text: it.text }),
+          (it.owner || it.due || L) ? h('div', { class: 'dec-meta' },
+            it.owner ? h('span', { class: 'chip', text: it.owner }) : null,
+            L ? h('span', { class: 'chip', text: L.full }) : null,
+            it.due ? h('span', { class: 'chip', text: 'até ' + dmFromKey(it.due) }) : null) : null,
+          clickupLine(k, it)),
+        del);
+    }));
+  }
+
+  function clickupLine(k, it) {
+    if (it.clickup) {
+      return h('div', { class: 'cu' }, it.clickup.url
+        ? h('a', { href: it.clickup.url, target: '_blank', rel: 'noopener', text: 'Tarefa criada no ClickUp ↗' })
+        : h('span', { text: 'Tarefa criada no ClickUp' }));
+    }
+    if (!it.owner || !it.listId || !PEOPLE[it.owner]) return assignLine(k, it);
+    if (S.sending[it.id]) return h('div', { class: 'cu', text: 'Criando tarefa no ClickUp…' });
+    const btn = h('button', { class: 'linkbtn send', type: 'button', text: S.sendErr[it.id] ? 'Tentar de novo' : 'Criar tarefa no ClickUp' });
+    btn.addEventListener('click', () => sendToClickUp(k, it));
+    return h('div', { class: 'cu' }, S.sendErr[it.id] ? h('span', { class: 'err', text: S.sendErr[it.id] }) : null, btn);
+  }
+
+  // Decisão sem responsável ou sem kanban: escolher os dois e criar a tarefa.
+  function assignLine(k, it) {
+    const btn = h('button', { class: 'linkbtn send', type: 'button', text: 'Atribuir e criar tarefa' });
+    const wrap = h('div', { class: 'cu' }, btn);
+    btn.addEventListener('click', () => {
+      const owner = h('select', { class: 'mini', 'aria-label': 'Responsável' },
+        h('option', { value: '', text: 'Responsável…' }), Object.keys(PEOPLE).map((n) => h('option', { value: n, text: n })));
+      const list = h('select', { class: 'mini', 'aria-label': 'Kanban' },
+        h('option', { value: '', text: 'Kanban…' }), ORDER.map((id) => h('option', { value: id, text: LISTS[id].full })));
+      if (it.owner && PEOPLE[it.owner]) { owner.value = it.owner; list.value = it.listId || PEOPLE[it.owner].list; }
+      owner.addEventListener('change', () => { const p = PEOPLE[owner.value]; if (p) list.value = p.list; });
+      const ok = h('button', { class: 'linkbtn send', type: 'button', text: 'Criar tarefa' });
+      const cancel = h('button', { class: 'linkbtn', type: 'button', text: 'Cancelar' });
+      ok.addEventListener('click', async () => {
+        if (!owner.value || !list.value) { (owner.value ? list : owner).focus(); return; }
+        const next = { ...it, owner: owner.value, listId: list.value };
+        await patchItem(k, it.id, { owner: next.owner, listId: next.listId }, it);
+        sendToClickUp(k, next);
+      });
+      cancel.addEventListener('click', () => renderDecisions());
+      wrap.replaceChildren(owner, list, ok, cancel);
+      owner.focus();
+    });
+    return wrap;
+  }
+
+  function patchItem(k, id, patch, fallback) {
+    const items = S.dec[k] || [];
+    const found = items.some((x) => x.id === id);
+    const next = found ? items.map((x) => x.id === id ? { ...x, ...patch } : x) : [...items, { ...fallback, ...patch }];
+    return saveItems(k, next);
+  }
+
+  async function sendToClickUp(k, it) {
+    const person = PEOPLE[it.owner];
+    if (!S.mcp) { S.sendErr[it.id] = 'Sem acesso ao ClickUp nesta visualização.'; renderDecisions(); return; }
+    if (!person || !LISTS[it.listId] || S.sending[it.id]) return;
+    S.sending[it.id] = true; delete S.sendErr[it.id]; renderDecisions();
+    const input = {
+      name: it.text,
+      list_id: it.listId,
+      assignees: [person.id],
+      priority: 'normal',
+      markdown_description: '**Atribuído por:** ' + ASSIGNED_BY + '\n**Responsável:** ' + it.owner + '\n\nDecisão do sprint de segunda, ' + dmFromKey(k) + '.\n\nRegistrada no dashboard Sprint MKT & Design.',
+    };
+    if (it.due) input.due_date = it.due;
+    try {
+      const r = await S.mcp.callTool(SERVER, 'clickup_create_task', input);
+      let p = r && r.payload;
+      if (typeof p === 'string') { try { p = JSON.parse(p); } catch (_) { p = null; } }
+      const t = p && (p.task || p.data || p);
+      const id = t && (t.id || t.task_id) || null;
+      const url = t && (t.url || t.task_url) || (id ? 'https://app.clickup.com/t/' + id : null);
+      delete S.sending[it.id];
+      await patchItem(k, it.id, { clickup: { id, url, at: new Date().toISOString() } }, it);
+      schedulePoll(3000);
+    } catch (e) {
+      delete S.sending[it.id];
+      const code = e && e.code;
+      S.sendErr[it.id] = (code === 'server_unavailable' || code === 'upstream_error' || code === 'cancelled')
+        ? 'Sem resposta do ClickUp. Confira se a tarefa já aparece no kanban antes de tentar de novo.'
+        : code === 'tool_error' ? 'O ClickUp recusou: ' + (e.message || 'sem detalhes') + '.'
+        : errorText(e);
+    }
+    renderDecisions();
+  }
+
+  function addDecision() {
+    const text = $('dec-text').value.trim();
+    if (!text) { $('dec-text').focus(); return; }
+    const k = sprintKeys().curK;
+    const due = $('dec-due').value && $('dec-due').validity.valid ? $('dec-due').value : null;
+    const owner = $('dec-owner').value || null;
+    const listId = owner && $('dec-list').value ? $('dec-list').value : null;
+    const item = { id: Date.now().toString(36) + Math.random().toString(36).slice(2, 6), text, owner, listId, due, period: periodLabel(S.from, S.to), done: false, at: new Date().toISOString() };
+    saveItems(k, [...(S.dec[k] || []), item]);
+    if (owner && listId) sendToClickUp(k, item);
+    $('dec-text').value = ''; $('dec-owner').value = ''; $('dec-list').value = ''; $('dec-due').value = ''; $('dec-text').focus();
+  }
+
+  // ---------- wiring ----------
+  S.from = mondayOf(Date.now()) - WEEK; S.to = S.from + WEEK;
+  $('prev').addEventListener('click', () => { const len = S.to - S.from; setRange(S.from - len, S.from); });
+  $('next').addEventListener('click', () => { const len = S.to - S.from; setRange(S.to, Math.min(todayEnd(), S.to + len)); });
+  $('refresh').addEventListener('click', () => { if (S.mcp) load(); else showNotice('Esta página precisa ser aberta no claude.ai para ler o ClickUp.'); });
+  const okDate = (el) => el.value && el.validity.valid && el.value >= MIN_KEY;
+  $('from').addEventListener('change', () => { const f = $('from'); if (!okDate(f)) return; const from = keyStart(f.value); setRange(from, Math.max(S.to, from + DAY)); });
+  $('to').addEventListener('change', () => { const t = $('to'); if (!okDate(t)) return; const to = keyStart(t.value) + DAY; setRange(Math.min(S.from, to - DAY), to); });
+  $('from').addEventListener('blur', renderRange);
+  $('to').addEventListener('blur', renderRange);
+  $('preset').addEventListener('change', () => { const v = $('preset').value; if (v) { applyPreset(v); $('preset').value = v; } });
+  $('dec-owner').addEventListener('change', () => { const p = PEOPLE[$('dec-owner').value]; $('dec-list').value = p ? p.list : ''; });
+  $('dec-add').addEventListener('click', addDecision);
+  $('dec-text').addEventListener('keydown', (e) => { if (e.key === 'Enter') addDecision(); });
+  let rw = 0;
+  new ResizeObserver(() => { const w = $('chart-semanas').clientWidth; if (S.loaded && Math.abs(w - rw) > 4) { rw = w; renderWeeks(); } }).observe($('chart-semanas'));
+  renderRange();
+  subscribeDecisions();
+
+  const api = window.claude && window.claude.use ? window.claude : null;
+  if (!api) {
+    showNotice('Esta página precisa ser aberta no claude.ai para ler o ClickUp e salvar as decisões.');
+    S.decReady = true; renderDecisions();
+    return;
+  }
+  api.use('db').then((db) => { S.db = db; S.decReady = true; subscribeDecisions(); }).catch(() => { S.decReady = true; renderDecisions(); });
+  api.use('mcp').then((mcp) => {
+    if (!mcp) { showNotice('A leitura do ClickUp não está disponível nesta visualização. Abra a página no claude.ai.'); $('takeaway').textContent = 'Sem acesso ao ClickUp nesta visualização.'; return; }
+    S.mcp = mcp; load().then(() => schedulePoll());
+  }).catch(() => showNotice('A leitura do ClickUp não está disponível nesta visualização.'));
+})();
+</script>
