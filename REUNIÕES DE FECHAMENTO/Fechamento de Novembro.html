@@ -1,0 +1,308 @@
+<title>Fechamento de Novembro</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap">
+<style>
+  :root{
+    /* Arttico — moldura institucional */
+    --arttico-navy:#010130;
+    --arttico-navy-2:#0d0d3d;
+    --line-dark:#2b2b5c;
+
+    /* Tastto — acento e sistema de status */
+    --tastto-deep:#1a1a2d;
+    --electric:#6c6cff;
+    --lavender:#b0afff;
+    --fog:#d6e1ea;
+    --orange:#f96a2b;
+
+    --paper:#f6f6fb;
+    --card:#ffffff;
+    --ink:#15152c;
+    --ink-2:#5c5c7a;
+    --ink-3:#9494ae;
+    --line:#e2e2f0;
+
+    --good:#2fbf71;
+    --good-bg:#e5f7ee;
+    --warn:#e0952a;
+    --warn-bg:#fbf0dd;
+
+    --serif:'Sora',-apple-system,'Segoe UI',sans-serif;
+    --sans:'IBM Plex Sans',-apple-system,'Segoe UI',sans-serif;
+    --mono:'IBM Plex Mono',ui-monospace,'SF Mono',monospace;
+  }
+
+  *,*::before,*::after{box-sizing:border-box}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:var(--sans);
+    font-size:16px;
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+  }
+  .deck{max-width:920px;margin:0 auto;padding:0 0 64px}
+
+  h1,h2,h3{font-family:var(--serif);font-weight:700;letter-spacing:-.01em;text-wrap:balance;margin:0}
+  p{margin:0}
+
+  .eyebrow{
+    font-family:var(--mono);font-size:11.5px;font-weight:600;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--electric);display:inline-flex;align-items:center;gap:9px;
+  }
+  .eyebrow.on-dark{color:var(--lavender)}
+
+  /* ---------- page chrome ---------- */
+  .page{padding:72px 56px}
+  .page.dark{background:var(--arttico-navy);color:#eceaf7}
+  .page.light{background:var(--paper)}
+  .page + .page.light{border-top:1px solid var(--line)}
+  .foot{
+    display:flex;justify-content:space-between;align-items:center;margin-top:48px;
+    font-family:var(--mono);font-size:11.5px;color:var(--ink-3);letter-spacing:.04em;
+  }
+  .page.dark .foot{color:#7a7ab0}
+
+  /* ---------- cover ---------- */
+  .cover{padding-top:96px;padding-bottom:96px}
+  .cover .eyebrow{margin-bottom:26px}
+  .cover .mark{display:inline-flex;align-items:center;gap:10px;margin-bottom:34px}
+  .cover .mark i{width:10px;height:10px;border-radius:3px;background:var(--electric)}
+  .cover h1{font-size:clamp(40px,6.4vw,58px);color:#fff;line-height:1.06}
+  .cover .meta{display:flex;gap:40px;margin-top:56px;padding-top:26px;border-top:1px solid var(--line-dark)}
+  .cover .meta .k{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#8383b8}
+  .cover .meta .v{font-weight:600;color:#fff;margin-top:6px;font-size:15px}
+
+  h2.title{font-size:29px;margin-bottom:34px}
+  .section-head{margin-bottom:34px}
+  .section-head .eyebrow{margin-bottom:14px}
+
+  .subhead{
+    font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.1em;
+    text-transform:uppercase;color:var(--ink-3);margin:0 0 14px;
+  }
+  .subhead:not(:first-child){margin-top:36px}
+
+  /* ---------- status cards ---------- */
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+  .card{
+    background:var(--card);border:1px solid var(--line);border-radius:14px;padding:24px;
+    display:flex;flex-direction:column;gap:12px;
+  }
+  .card h3{font-size:16px}
+  .card p{color:var(--ink-2);font-size:14px;line-height:1.55}
+  .pill{
+    align-self:flex-start;display:inline-flex;align-items:center;gap:6px;
+    padding:4px 11px;border-radius:999px;font-family:var(--mono);
+    font-size:10.5px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;
+  }
+  .pill.good{background:var(--good-bg);color:var(--good)}
+  .pill.warn{background:var(--warn-bg);color:var(--warn)}
+  .pill.info{background:rgba(108,108,255,.12);color:var(--electric)}
+  .pill::before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor}
+
+  /* ---------- callout / quote ---------- */
+  .quote{
+    background:linear-gradient(155deg,rgba(108,108,255,.09),rgba(176,175,255,.06));
+    border:1px solid #d7d7fb;border-radius:14px;padding:24px 26px;
+  }
+  .quote .eyebrow{margin-bottom:10px}
+  .quote p{font-size:15px;line-height:1.65;color:var(--ink)}
+  .quote strong{color:var(--arttico-navy)}
+
+  .impact-note{
+    margin-top:20px;font-size:13.5px;color:var(--ink-2);line-height:1.6;
+    border-left:2px solid var(--orange);padding-left:16px;
+  }
+  .impact-note strong{color:var(--ink)}
+
+  /* ---------- stats / numbers ---------- */
+  .stat-card{
+    background:var(--card);border:1px solid var(--line);border-radius:14px;padding:24px;
+    display:flex;flex-direction:column;gap:10px;
+  }
+  .stat-card .big{font-family:var(--serif);font-size:38px;font-weight:800;color:var(--arttico-navy)}
+  .stat-card .lbl{font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3)}
+  .bar{height:10px;border-radius:999px;background:var(--fog);overflow:hidden;margin-top:4px}
+  .bar-fill{height:100%;background:var(--electric);border-radius:999px 0 0 999px}
+  .bar-legend{display:flex;justify-content:space-between;font-size:12px;color:var(--ink-2);margin-top:6px}
+  .bar-legend b{color:var(--ink)}
+
+  /* ---------- rotinas / ref cards ---------- */
+  .freq{
+    align-self:flex-start;font-family:var(--mono);font-size:10.5px;font-weight:600;
+    letter-spacing:.07em;text-transform:uppercase;color:var(--ink-2);
+    border:1px solid var(--line);padding:4px 11px;border-radius:999px;
+  }
+
+  /* ---------- desafios / encerramento ---------- */
+  .steps{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:12px}
+  .steps li{
+    display:grid;grid-template-columns:1fr auto;gap:16px;align-items:center;
+    background:var(--arttico-navy-2);border:1px solid var(--line-dark);border-radius:12px;
+    padding:18px 20px;font-size:14.5px;color:#e4e3f5;
+  }
+  .steps .owner{
+    font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.08em;
+    color:var(--lavender);border:1px solid #3a3a72;padding:5px 12px;border-radius:999px;white-space:nowrap;
+  }
+
+  @media (max-width:640px){
+    .page{padding:52px 22px}
+    .grid2,.grid3{grid-template-columns:1fr}
+  }
+</style>
+
+<div class="deck">
+
+  <!-- CAPA -->
+  <section class="page dark cover">
+    <span class="mark"><i></i><span class="eyebrow on-dark">Grupo Arttico · Marketing Interno</span></span>
+    <h1>Fechamento de Novembro</h1>
+    <div class="meta">
+      <div><div class="k">Data</div><div class="v">30 de novembro de 2026</div></div>
+    </div>
+    <div class="foot"><span>Uso interno · Grupo Arttico</span><span>01 / 06</span></div>
+  </section>
+
+  <!-- O QUE FOI FEITO -->
+  <section class="page light">
+    <div class="section-head">
+      <span class="eyebrow">O que foi feito</span>
+      <h2 class="title">LPs finalizadas e produção de vídeo em ritmo constante</h2>
+    </div>
+
+    <p class="subhead">Finalizado</p>
+    <div class="grid2">
+      <div class="card">
+        <span class="pill good">Finalizado</span>
+        <h3>LP da Arttico</h3>
+        <p>Reestruturação concluída no Framer.</p>
+      </div>
+      <div class="card">
+        <span class="pill good">Finalizado</span>
+        <h3>LP da Tastto</h3>
+        <p>Ajustes de alinhamento ao funil atual concluídos.</p>
+      </div>
+    </div>
+
+    <p class="subhead">Em andamento</p>
+    <div class="grid2">
+      <div class="card">
+        <span class="pill info">Em andamento</span>
+        <h3>Gravações e cortes do Tastto Visita</h3>
+        <p>Produção semanal seguindo em ritmo constante — gravações de novos episódios e cortes publicados seguindo o calendário.</p>
+      </div>
+    </div>
+
+    <div class="foot"><span>Fechamento de Novembro</span><span>02 / 06</span></div>
+  </section>
+
+  <!-- NÚMEROS DO MÊS -->
+  <section class="page light">
+    <div class="section-head">
+      <span class="eyebrow">Números do mês</span>
+      <h2 class="title">77 tarefas no total — 19% de cliente, 81% internas</h2>
+    </div>
+
+    <div class="grid2">
+      <div class="stat-card">
+        <span class="lbl">Kanban Design</span>
+        <span class="big">56</span>
+        <div class="bar"><div class="bar-fill" style="width:26.8%"></div></div>
+        <div class="bar-legend"><span><b>15</b> de cliente</span><span><b>41</b> internas</span></div>
+      </div>
+      <div class="stat-card">
+        <span class="lbl">Arttico — MKT</span>
+        <span class="big">21</span>
+        <div class="bar"><div class="bar-fill" style="width:0%"></div></div>
+        <div class="bar-legend"><span><b>0</b> de cliente</span><span><b>21</b> internas</span></div>
+      </div>
+    </div>
+
+    <div class="quote" style="margin-top:28px">
+      <span class="eyebrow">Total combinado</span>
+      <p><strong>77 tarefas</strong> entre as duas listas neste mês — <strong>15 de cliente (19%)</strong> e <strong>62 internas (81%)</strong>. O Arttico — MKT concentra conteúdo de marca e produção de vídeo, 100% interno; o volume de cliente fica todo no Design.</p>
+    </div>
+
+    <div class="foot"><span>Fechamento de Novembro</span><span>03 / 06</span></div>
+  </section>
+
+  <!-- NOVAS INICIATIVAS -->
+  <section class="page light">
+    <div class="section-head">
+      <span class="eyebrow">Novas iniciativas</span>
+      <h2 class="title">Canal do YouTube — pesquisa de referência concluída</h2>
+    </div>
+
+    <div class="quote">
+      <span class="eyebrow">Decisão</span>
+      <p>O canal terá <strong>identidade visual própria</strong>, não vinculada ao Grupo Arttico. Projeto do Marketing com foco em crescimento orgânico; nicho de food ainda em avaliação.</p>
+    </div>
+
+    <p class="subhead">Canais de referência pesquisados</p>
+    <div class="grid3">
+      <div class="card">
+        <span class="freq">Referência</span>
+        <h3>Nostalgia, Buenas Ideias, Nerdologia</h3>
+        <p>Vídeos-ensaio e história com apresentador forte.</p>
+      </div>
+      <div class="card">
+        <span class="freq">Curiosidades em escala</span>
+        <h3>Você Sabia?, Fatos Desconhecidos</h3>
+        <p>Alto volume, muito forte em Shorts.</p>
+      </div>
+      <div class="card">
+        <span class="freq">Produção / técnica</span>
+        <h3>Manual do Mundo e similares</h3>
+        <p>Experimentos e ciência aplicada ao dia a dia.</p>
+      </div>
+    </div>
+
+    <div class="foot"><span>Fechamento de Novembro</span><span>04 / 06</span></div>
+  </section>
+
+  <!-- APOSTAS MKT 2027 -->
+  <section class="page light">
+    <div class="section-head">
+      <span class="eyebrow">Apostas para o MKT 2027</span>
+      <h2 class="title">Três frentes estratégicas para o próximo ano</h2>
+    </div>
+
+    <div class="grid3">
+      <div class="card">
+        <span class="pill info">Aposta 1</span>
+        <h3>Relações Públicas e Influência</h3>
+        <p><strong>Objetivo:</strong> centralizar no marketing interno a gestão estratégica de influenciadores, parcerias e relacionamentos institucionais, com papel mais ativo na identificação de oportunidades de exposição e conexão com públicos relevantes.</p>
+      </div>
+      <div class="card">
+        <span class="pill info">Aposta 2</span>
+        <h3>Marketing + Comercial</h3>
+        <p><strong>Objetivo:</strong> tornar o marketing fonte mais previsível de oportunidades comerciais, atuando em parceria com o comercial na atração, preparação e nutrição de potenciais clientes.</p>
+      </div>
+      <div class="card">
+        <span class="pill info">Aposta 3</span>
+        <h3>Ecossistema de Autoridade</h3>
+        <p><strong>Objetivo:</strong> ampliar a presença institucional da Arttico e da Tastto além do digital, com eventos, experiências, comunidades e relacionamento — fortalecendo as marcas como referência e valorizando suas lideranças.</p>
+      </div>
+    </div>
+
+    <div class="foot"><span>Fechamento de Novembro</span><span>05 / 06</span></div>
+  </section>
+
+  <!-- ENCERRAMENTO -->
+  <section class="page dark">
+    <div class="section-head">
+      <span class="eyebrow on-dark">Encerramento</span>
+      <h2 class="title" style="color:#fff">Encaminhamentos</h2>
+    </div>
+    <ul class="steps">
+      <li><span>Seguir ajustando o limite de alterações para cardápio e displays — sinal de melhora, sem atraso no único caso ativo.</span><span class="owner">Em processo</span></li>
+      <li><span>Definir o nicho e o formato final do canal do YouTube.</span><span class="owner">MKT Interno</span></li>
+      <li><span>Validar e priorizar as três apostas de MKT para 2027.</span><span class="owner">Decisão</span></li>
+    </ul>
+    <div class="foot"><span>Fechamento de Novembro</span><span>06 / 06</span></div>
+  </section>
+
+</div>
